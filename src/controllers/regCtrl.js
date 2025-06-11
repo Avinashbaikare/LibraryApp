@@ -1,0 +1,51 @@
+let regservice=require("../services/regservices.js");
+let regmodels=require("../models/regmodels.js");
+exports.home=(req,res)=>{
+    res.render("home.ejs");
+}
+exports.signup=(req,res)=>{
+    res.render("loginuser.ejs",{msg:""});
+}
+exports.login=(req,res)=>{
+    res.render("loginadmin.ejs",{msg:""});
+}
+exports.signadmin=(req,res)=>{
+    res.render("signupstd.ejs",{msg:""});
+}
+exports.saveuser=(req,res)=>{
+    let{name,email,password,role}=req.body;
+    let date=new Date();
+
+    let result=regservice.acceptRegdata(name,email,password,role,date);
+    res.render("signupstd.ejs",{msg:result});
+}
+exports.validadmin=(req,res)=>{
+    let{username,password}=req.body;
+
+     let result=regmodels.validateuser(username,password);
+      result.then((r)=>{
+        if(r.length>0)
+        {
+             res.render("adminboard.ejs",{msg:r});
+            
+        }
+        else{
+             res.render("loginadmin.ejs",{msg:"Admin not valid...."});
+        }
+    });
+}
+exports.validuser=(req,res)=>{
+    let{username,password}=req.body;
+
+     let result=regmodels.validateuserlogin(username,password);
+      result.then((r)=>{
+        if(r.length>0)
+        {
+             res.render("userboard.ejs",{msg:r});
+            
+        }
+        else{
+             res.render("loginuser.ejs",{msg:"User Not Valid...."});
+        }
+    });
+}

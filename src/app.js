@@ -1,0 +1,11 @@
+let express=require("express");
+let bodyparser=require("body-parser");
+let app=express();
+let db=require("../src/config/db.js");
+let router=require("../src/routes/regrouts.js");
+app.use(bodyparser.urlencoded({extended:true}));
+app.use(bodyparser.json());
+app.use(express.static("public"));
+app.use("/",router);
+app.set('view engine','ejs');
+module.exports=app;
