@@ -12,5 +12,14 @@ class RegServices{
            return "registration faild";
         }
     }
+
+    acceptbook(btitle,bauthor,bpublisher,isbn,bcatagory,btotalcopies,bavailablecopies,bstatus,date){
+        let index=isbn.length;
+        if(index==10)
+        {
+            let result=regmodule.savebook(btitle,bauthor,bpublisher,isbn,bcatagory,btotalcopies,bavailablecopies,bstatus,date);
+            return result? "book is added":"book not added";
+        }
+    }
 }
 module.exports=new RegServices();

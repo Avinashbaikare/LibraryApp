@@ -43,9 +43,32 @@ exports.validuser=(req,res)=>{
         {
              res.render("userboard.ejs",{msg:r});
             
+            
         }
         else{
              res.render("loginuser.ejs",{msg:"User Not Valid...."});
         }
     });
+}
+exports.addbook=(req,res)=>{
+res.render("addBooks.ejs",{msg:""});
+}
+exports.viewbook = async (req, res) => {
+    try {
+        let result = await regmodels.showbooks();
+        
+        res.render("viewbooks.ejs", { data: result });
+    } 
+    catch (error) {
+        console.error("Error fetching books:", error);
+        res.status(500).send("Internal Server Error");
+    }
+};
+
+exports.postbook=(req,res)=>{
+    let{btitle,bauthor,bpublisher,isbn,bcatagory,btotalcopies,bavailablecopies,bstatus}=req.body;
+    let date=new Date();
+
+     let result=regservice.acceptbook(btitle,bauthor,bpublisher,isbn,bcatagory,btotalcopies,bavailablecopies,bstatus,date);
+      res.render("addBooks.ejs",{msg:result});
 }

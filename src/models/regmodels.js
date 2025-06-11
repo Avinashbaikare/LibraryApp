@@ -8,6 +8,12 @@ exports.saveUser=(...regdata)=>{
     });
     return true;
 };
+exports.savebook=(...regdata)=>{
+    conn.query("insert into books values('0',?,?,?,?,?,?,?,?,?)",[...regdata],(err,result)=>{
+
+    });
+    return true;
+}
 
 exports.validateuser=(...logdata)=>{
     let promise=new Promise((resolve,rejuct)=>{
@@ -41,3 +47,10 @@ exports.validateuserlogin=(...logdata)=>{
    
     return promise;
 };
+exports.showbooks = () => 
+    new Promise((resolve, reject) => {
+        conn.query("SELECT * FROM books;", (err, result) => {
+            if (err) reject(err);
+            else resolve(result);
+        });
+    });

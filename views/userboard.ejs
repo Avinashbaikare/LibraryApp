@@ -1,17 +1,104 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
+  <meta charset="UTF-8">
+  <title>Student Dashboard - Library</title>
+  <style>
+    body {
+      margin: 0;
+      font-family: Arial, sans-serif;
+      background-color: #f0f2f5;
+    }
+
+    .header {
+      background: linear-gradient(to right, #a18cd1, #fbc2eb);
+      color: white;
+      padding: 20px;
+      text-align: center;
+    }
+
+    .container {
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: center;
+      padding: 30px;
+      gap: 20px;
+    }
+
+    .card {
+      background-color: white;
+      width: 300px;
+      padding: 20px;
+      border-radius: 12px;
+      box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+      transition: 0.3s;
+    }
+
+    .card:hover {
+      box-shadow: 0 6px 12px rgba(0,0,0,0.2);
+    }
+
+    .card h3 {
+      margin-top: 0;
+      color: #333;
+    }
+
+    .card p {
+      color: #555;
+    }
+
+    .card button {
+      margin-top: 15px;
+      padding: 10px 20px;
+      background: linear-gradient(to right, #a18cd1, #fbc2eb);
+      color: white;
+      border: none;
+      border-radius: 5px;
+      cursor: pointer;
+    }
+
+    .card button:hover {
+      background-color: #005fa3;
+    }
+
+    .footer {
+      text-align: center;
+      padding: 15px;
+      background-color: #e0e0e0;
+      font-size: 14px;
+    }
+  </style>
 </head>
 <body>
-    <div class="header">
-        <li>
-            <a href="">View Books</a>
-            <a href="">Order Book</a>
-            <a href="">Submit Book</a>
-        </li>
+
+  <div class="header">
+    <h1>Library Dashboard - Student</h1>
+    <p>Welcome back!</p>
+  </div>
+
+  <div class="container">
+    <div class="card">
+      <h3>View Books</h3>
+      <p>See all books you currently have and their return dates.</p>
+      <button>View Books</button>
     </div>
+
+    <div class="card">
+      <h3>Issue Book</h3>
+      <p>Find books by title, author, or category in the library database.</p>
+      <button>Search Now</button>
+    </div>
+
+    <div class="card">
+      <h3>Return Book</h3>
+      <p>Edit your student info or change your password.</p>
+      <button>Edit Profile</button>
+    </div>
+  </div>
+
+  <div class="footer">
+    &copy; 2025 Library Management System
+  </div>
+
 </body>
 </html>

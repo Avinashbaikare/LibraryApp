@@ -10,5 +10,9 @@ router.get("/signupadmin",regCtrl.signadmin);
 router.post("/saves",regCtrl.saveuser);
 router.post("/logsave",regCtrl.validadmin);
 router.post("/userLogin",regCtrl.validuser);
+router.get("/addbooks",regCtrl.addbook);
+router.get("/viewbooks",regCtrl.viewbook);
+router.post("/postbook",regCtrl.postbook);
+
 
 module.exports=router;

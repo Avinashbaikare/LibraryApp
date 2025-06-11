@@ -1,0 +1,77 @@
+ <!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Library Dashboard</title>
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="style.css">
+    <style>
+        .form-control{
+            margin-bottom: 10px;
+        }
+    </style>
+</head>
+<body>
+    
+  <div class="container-fluid">
+    <div class="row">
+      <div class="col-md-2 sidebar">
+        <h3 class="text-center py-3"></h3>
+        <a href="#" class="active">Dashboard</a>
+        <a href="#">Profile</a>
+        <a href="/addbooks">Add Books</a>
+        <a href="/viewbooks">View Books</a>
+        <a href="#">Notifications</a>
+        <a href="#">Users Management</a>
+        <a href="#">Settings</a>
+        <a href="#">Database Backup</a>
+      </div>
+      <div class="col-md-10">
+        <div class="header d-flex justify-content-between align-items-center">
+          <h4>Admin Dashboard</h4>
+          <div></div>
+        </div>
+
+        
+
+       <form name="frm" action="/postbook" method="post" style="margin-top: 10px;">
+    <div class="form-group">
+        <input type="text" class="form-control" name="btitle"  id="title" placeholder="Enter Book Title" >
+    </div>  
+    <div class="form-group">
+       <input type="text" class="form-control" name="bauthor"  id="author" placeholder="Enter Author Name" >
+    </div> 
+    <div class="form-group">
+      <input type="text" class="form-control" name="bpublisher"  id="publilsher" placeholder="Enter publilsher " >
+    </div>  
+     <div class="form-group">
+        <input type="text" class="form-control" name="isbn"  id="ISBN" placeholder="Enter ISBN Code" >
+    </div>  
+     <div class="form-group">
+        <input type="text" class="form-control" name="bcatagory"  id="category" placeholder="Enter Catagory" >
+    </div> 
+    <div class="form-group">
+        <input type="text" class="form-control" name="btotalcopies"  id="totalcopies" placeholder="Enter No.of Copies" >
+    </div> 
+    <div class="form-group">
+        <input type="text" class="form-control" name="bavailablecopies"  id="availablecopies" placeholder="Enter NO.of Available Copies " >
+    </div> 
+     <div class="form-group">
+        <input type="text" class="form-control" name="bstatus"  id="status" placeholder="Enter Status Available Or Not " >
+    </div> 
+    <div class="form-group">
+        <input type="submit" class="form-control" id="ns" value="Add Book">
+    </div> 
+      <div class="alert alert-warning alert-dismissible fade show" role="alert">
+            <strong><%=msg%></strong>
+            
+          </div>
+    </form> 
+      </div>
+    </div>
+  </div>
+</body>
+</html>
+
+ 
