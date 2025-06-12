@@ -9,10 +9,19 @@ exports.saveUser=(...regdata)=>{
     return true;
 };
 exports.savebook=(...regdata)=>{
+    console.log(regdata);
+    
     conn.query("insert into books values('0',?,?,?,?,?,?,?,?,?)",[...regdata],(err,result)=>{
-
+        if(err)
+        {
+            return false;
+        }
+        else
+        {
+            return true;
+        }
     });
-    return true;
+    
 }
 
 exports.validateuser=(...logdata)=>{

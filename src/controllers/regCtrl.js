@@ -68,7 +68,11 @@ exports.viewbook = async (req, res) => {
 exports.postbook=(req,res)=>{
     let{btitle,bauthor,bpublisher,isbn,bcatagory,btotalcopies,bavailablecopies,bstatus}=req.body;
     let date=new Date();
-
+        
      let result=regservice.acceptbook(btitle,bauthor,bpublisher,isbn,bcatagory,btotalcopies,bavailablecopies,bstatus,date);
       res.render("addBooks.ejs",{msg:result});
+      
+}
+exports.admindashboards=(req,res)=>{
+    res.render("adminboard.ejs");
 }

@@ -20,6 +20,9 @@ class RegServices{
             let result=regmodule.savebook(btitle,bauthor,bpublisher,isbn,bcatagory,btotalcopies,bavailablecopies,bstatus,date);
             return result? "book is added":"book not added";
         }
+        else{
+            return "book not added";
+        }
     }
 }
 module.exports=new RegServices();
