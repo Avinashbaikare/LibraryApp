@@ -14,5 +14,12 @@ router.get("/addbooks",regCtrl.addbook);
 router.get("/viewbooks",regCtrl.viewbook);
 router.post("/postbook",regCtrl.postbook);
 router.get("/admindashboard",regCtrl.admindashboards);
+router.get("/studviewbook",regCtrl.studviewbook);
+router.get("/issubook",regCtrl.issubooks);
+router.get("/regemember",regCtrl.Regmembers);
+router.post("/savemember",regCtrl.savemembers);
+router.get("/viewmembers",regCtrl.viewmembers);
+router.get("/adminprofile",regCtrl.adminprofile);
+
 
 module.exports=router;

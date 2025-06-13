@@ -2,14 +2,14 @@ let conn=require("../config/db.js");
   
 exports.saveUser=(...regdata)=>{
   
-    conn.query("insert into users values('0',?,?,?,?,?)",[...regdata],(err,result)=>{
+    conn.query("insert into users values('0',?,?,?,?,?,?)",[...regdata],(err,result)=>{
       
 
     });
     return true;
 };
 exports.savebook=(...regdata)=>{
-    console.log(regdata);
+    
     
     conn.query("insert into books values('0',?,?,?,?,?,?,?,?,?)",[...regdata],(err,result)=>{
         if(err)
@@ -26,7 +26,7 @@ exports.savebook=(...regdata)=>{
 
 exports.validateuser=(...logdata)=>{
     let promise=new Promise((resolve,rejuct)=>{
-         conn.query("select * from users where uname=? and password=? and role='admin'",[...logdata],(err,result)=>{
+         conn.query("select * from users where uname=? and password=?;",[...logdata],(err,result)=>{
         if(err)
         {
             rejuct(err);
@@ -42,7 +42,7 @@ exports.validateuser=(...logdata)=>{
 };
 exports.validateuserlogin=(...logdata)=>{
     let promise=new Promise((resolve,rejuct)=>{
-         conn.query("select * from users where uname=? and password=? and role='user'",[...logdata],(err,result)=>{
+         conn.query("select * from members where name=? and password=?;",[...logdata],(err,result)=>{
         if(err)
         {
             rejuct(err);
@@ -63,3 +63,28 @@ exports.showbooks = () =>
             else resolve(result);
         });
     });
+exports.saveMember=(...regdata)=>{
+    
+    conn.query("insert into members values('0',?,?,?,?,?,?)",[...regdata],(err,result)=>{
+      
+
+    });
+    return true;
+};
+exports.showmembers = () => 
+    new Promise((resolve, reject) => {
+        conn.query("SELECT * FROM members;", (err, result) => {
+            if (err) reject(err);
+            else resolve(result);
+        });
+    });
+
+exports.showprofile = (couid) => 
+    new Promise((resolve, reject) => {
+        conn.query("SELECT * FROM users where uid=?;",[couid], (err, result) => {
+            if (err) reject(err);
+            else resolve(result);
+        
+        });
+    });
+    
