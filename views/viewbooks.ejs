@@ -13,19 +13,18 @@
     <div class="row">
       <div class="col-md-2 sidebar">
         <h3 class="text-center py-3"></h3>
-        <a href="/admindashboard" class="active">Dashboard</a>
-        <a href="#">Profile</a>
-        <a href="/addbooks">Add Books</a>
-        <a href="/viewbooks">Manage Books</a>
-       <a href="/viewmembers">View Members</a>
-        <a href="#">Users Management</a>
-        <a href="#">Settings</a>
-        <a href="#">Database Backup</a>
+        <a href="/admindashboard?uid=<%=data1.uid%>" class="active">Dashboard</a>
+        <a href="/adminprofile?uid=<%=data1.uid%>">Profile</a>
+        <a href="/addbooks?uid=<%=data1.uid%>">Add Books</a>
+        <a href="/viewbooks?uid=<%=data1.uid%>">Manage Books</a>
+       <a href="/viewmembers?uid=<%=data1.uid%>">View Members</a>
+        <a href="/adminlogin">Logout</a>
+        
       </div>
       <div class="col-md-10">
         <div class="header d-flex justify-content-between align-items-center">
           <h4>Admin Dashboard</h4>
-          <div>Hi, Admin</div>
+          <div>Hello, Admin <%=data1.uname%></div>
         </div>
 
         

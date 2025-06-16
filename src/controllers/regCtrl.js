@@ -50,14 +50,41 @@ exports.validuser=(req,res)=>{
         }
     });
 }
-exports.addbook=(req,res)=>{
-res.render("addBooks.ejs",{msg:""});
-}
+
+exports.addbook= (req, res) => {
+  let couid = parseInt(req.query.uid.trim());
+
+  regmodels.showprofile(couid).then((result) => {
+    if (result.length > 0) {
+      res.render("addBooks.ejs", { msg:"",data: result[0] });
+      
+    } else {
+      res.render("addBooks.ejs", { data: null, msg: "No user found." });
+    }
+  }).catch((err) => {
+    console.error("Error fetching profile:", err);
+    res.status(500).send("Server error");
+  });
+};
+
+
 exports.viewbook = async (req, res) => {
+     let couid = parseInt(req.query.uid.trim());
+    
     try {
-        let result = await regmodels.showbooks();
         
-        res.render("viewbooks.ejs", { data: result });
+        let result = await regmodels.showbooks();
+        regmodels.showprofile(couid).then((result1) => {
+    if (result1.length > 0) {
+      res.render("viewbooks.ejs", { msg:"",data: result,data1: result1[0] });
+     
+      
+    } else {
+      res.render("viewbooks.ejs", { data: null,data1:null, msg: "No user found." });
+    }
+  });
+        
+       
     } 
     catch (error) {
         console.error("Error fetching books:", error);
@@ -73,9 +100,22 @@ exports.postbook=(req,res)=>{
       res.render("addBooks.ejs",{msg:result});
       
 }
-exports.admindashboards=(req,res)=>{
-    res.render("adminboard.ejs");
-}
+
+exports.admindashboards= (req, res) => {
+  let couid = parseInt(req.query.uid.trim());
+
+  regmodels.showprofile(couid).then((result) => {
+    if (result.length > 0) {
+      res.render("adminboard.ejs", { msg: result[0] });
+    
+    } else {
+      res.render("adminboard.ejs", { msg: null, msg: "No user found." });
+    }
+  }).catch((err) => {
+    console.error("Error fetching profile:", err);
+    res.status(500).send("Server error");
+  });
+};
 exports.studviewbook = async (req, res) => {
     try {
         let result = await regmodels.showbooks();
@@ -103,10 +143,20 @@ exports.savemembers=(req,res)=>
 
 }
 exports.viewmembers = async (req, res) => {
+    let couid = parseInt(req.query.uid.trim());
     try {
         let result = await regmodels.showmembers();
+         regmodels.showprofile(couid).then((result1) => {
+    if (result1.length > 0) {
+      res.render("viewmembers.ejs", {msg:"", data: result,data1: result1[0]});
+     
+      
+    } else {
+      res.render("viewmembers.ejs", { data: null,data1:null, msg: "No user found." });
+    }
+  });
         
-        res.render("viewmembers.ejs", { data: result });
+       
     } 
     catch (error) {
         console.error("Error fetching books:", error);
