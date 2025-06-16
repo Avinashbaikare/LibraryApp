@@ -20,6 +20,7 @@ router.get("/regemember",regCtrl.Regmembers);
 router.post("/savemember",regCtrl.savemembers);
 router.get("/viewmembers",regCtrl.viewmembers);
 router.get("/adminprofile",regCtrl.adminprofile);
+router.get("/userprofile",regCtrl.userprofile)
 
 
 module.exports=router;

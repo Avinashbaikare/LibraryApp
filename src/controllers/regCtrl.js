@@ -41,7 +41,7 @@ exports.validuser=(req,res)=>{
       result.then((r)=>{
         if(r.length>0)
         {
-             res.render("userboard.ejs",{msg:r});
+             res.render("userboard.ejs",{msg:r[0]});
             
             
         }
@@ -116,6 +116,7 @@ exports.admindashboards= (req, res) => {
     res.status(500).send("Server error");
   });
 };
+
 exports.studviewbook = async (req, res) => {
     try {
         let result = await regmodels.showbooks();
@@ -131,14 +132,14 @@ exports.issubooks=(req,res)=>{
     res.render("issuebooks.ejs");
 }
 exports.Regmembers=(req,res)=>{
-    res.render("memberReg.ejs");
+    res.render("memberReg.ejs",{msg:""});
 }
 exports.savemembers=(req,res)=>
 {
-     let{name,email,phone,address,password}=req.body;
+     let{name,email,phone,address,gender,dob,collegename,password}=req.body;
     let date=new Date();
-
-    let result=regservice.acceptUserregdata(name,email,phone,address,password,date);
+   
+    let result=regservice.acceptUserregdata(name,email,phone,address,gender,dob,collegename,password,date);
     res.render("memberReg.ejs",{msg:result});
 
 }
@@ -154,8 +155,7 @@ exports.viewmembers = async (req, res) => {
     } else {
       res.render("viewmembers.ejs", { data: null,data1:null, msg: "No user found." });
     }
-  });
-        
+  });      
        
     } 
     catch (error) {
@@ -178,4 +178,23 @@ exports.adminprofile = (req, res) => {
     console.error("Error fetching profile:", err);
     res.status(500).send("Server error");
   });
+};
+
+exports.userprofile = (req, res) => {
+  let userid = parseInt(req.query.id.trim());
+
+  regmodels.showUserprofile(userid).then((result) => {
+    if (result.length > 0) {
+      res.render("userprofile.ejs", { data: result[0] });
+      
+    } else {
+      res.render("userprofile.ejs", { data: null, msg: "No user found." });
+    }
+  }).catch((err) => {
+    console.error("Error fetching profile:", err);
+    res.status(500).send("Server error");
+  });
+};
+exports.userprofile=(req,res)=>{
+  res.render("userprofile.ejs");
 };

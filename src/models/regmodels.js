@@ -2,8 +2,7 @@ let conn=require("../config/db.js");
   
 exports.saveUser=(...regdata)=>{
   
-    conn.query("insert into users values('0',?,?,?,?,?,?)",[...regdata],(err,result)=>{
-      
+    conn.query("insert into users values('0',?,?,?,?,?,?)",[...regdata],(err,result)=>{   
 
     });
     return true;
@@ -64,8 +63,8 @@ exports.showbooks = () =>
         });
     });
 exports.saveMember=(...regdata)=>{
-    
-    conn.query("insert into members values('0',?,?,?,?,?,?)",[...regdata],(err,result)=>{
+    console.log(regdata)
+    conn.query("insert into members values('0',?,?,?,?,?,?,?,?,?)",[...regdata],(err,result)=>{
       
 
     });
@@ -87,4 +86,13 @@ exports.showprofile = (couid) =>
         
         });
     });
+    exports.showUserprofile = (userid) => 
+    new Promise((resolve, reject) => {
+        conn.query("SELECT * FROM members where id=?;",[userid], (err, result) => {
+            if (err) reject(err);
+            else resolve(result);
+        
+        });
+    });
+    
     
