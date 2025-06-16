@@ -208,6 +208,3 @@ exports.userprofile = (req, res) => {
     res.status(500).send("Server error");
   });
 };
-exports.userprofile=(req,res)=>{
-  res.render("userprofile.ejs");
-};
