@@ -12,7 +12,6 @@ class RegServices{
            return "registration faild";
         }
     }
-
     acceptbook(btitle,bauthor,bpublisher,isbn,bcatagory,btotalcopies,bavailablecopies,bstatus,date){
         let index=isbn.length;
         if(index==10)
@@ -24,12 +23,11 @@ class RegServices{
             return "book not added";
         }
     }
-        acceptUserregdata(name,email,phone,address,password,date){
+        acceptUserregdata(name,email,phone,address,gender,dob,collegename,password,date){
         let index=email.indexOf("@gmail.com");
-        
         if(index!=-1)
         {
-            let result=regmodule.saveMember(name,email,phone,address,password,date);
+            let result=regmodule.saveMember(name,email,phone,address,gender,dob,collegename,password,date);
             return result? "registration Success":"registration Faild";
 
         }

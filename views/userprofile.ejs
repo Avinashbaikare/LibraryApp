@@ -1,0 +1,156 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Library Dashboard</title>
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="style.css">
+     <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f4f7f8;
+            margin: 0;
+            padding: 0;
+        }
+        .profile-container {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+        }
+        .profile-card {
+            background: linear-gradient(90deg, #b28edb, #f5a4cf);
+            padding: 40px;
+            border-radius: 15px;
+            display: flex;
+            width: 80%;
+            max-width: 1000px;
+            box-shadow: 0 10px 20px rgba(0, 0, 0, 0.2);
+        }
+        .profile-left {
+            flex: 1;
+            text-align: center;
+            padding: 20px;
+        }
+        .profile-left img {
+            width: 150px;
+            height: 150px;
+            border-radius: 50%;
+            background-color: #4e5a73;
+            padding: 20px;
+        }
+        .profile-left h2 {
+            margin: 15px 0 5px;
+        }
+        .profile-left p {
+            color: green;
+            font-weight: bold;
+        }
+        .profile-right {
+            flex: 2;
+            padding: 20px;
+        }
+        .profile-right h2 {
+            margin-bottom: 20px;
+        }
+        .form-group {
+            margin-bottom: 15px;
+            display: flex;
+            flex-direction: column;
+        }
+        .form-group label {
+            margin-bottom: 5px;
+            font-weight: bold;
+        }
+        .form-group input {
+            padding: 10px;
+            border: none;
+            border-radius: 8px;
+            font-size: 16px;
+        }
+        .form-row {
+            display: flex;
+            gap: 20px;
+        }
+        .update-btn {
+            background-color: #0066ff;
+            color: white;
+            padding: 10px 20px;
+            border: none;
+            border-radius: 8px;
+            font-size: 16px;
+            cursor: pointer;
+            margin-top: 10px;
+        }
+        .update-btn:hover {
+            background-color: #004cc4;
+        }
+    </style>
+</head>
+<body>
+    
+    <div class="container-fluid">
+        <div class="row">
+            <div class="col-md-2 sidebar">
+                    <h3 class="text-center py-3"></h3>
+                    <a href="#" class="active">Dashboard</a>
+                    <a href="/userprofile?id=<%=data.id%>">Profile</a>
+                    <a href="/studviewbook">View Books</a>
+                    <a href="/issubook">Issue  Books</a>
+                    <a href="#">Logout</a>
+            </div>
+            <div class="col-md-10">
+                <div class="header d-flex justify-content-between align-items-center">
+                    <h4>User Dashboard</h4>
+                    <div>Hello,<%=data.name%>  </div>
+                </div>
+                 <div class="profile-right">
+                     <div class="profile-card">
+            <div class="profile-left">
+                <img src="https://www.w3schools.com/howto/img_avatar.png" alt="Avatar">
+                <h2><%=data.name%></h2>
+                <p>Online</p>
+            </div>
+                <form>
+                    <div class="form-group">
+                        <label>First Name</label>
+                        <input type="text" value="<%=data.name%>">
+                    </div>
+                    <div class="form-row">
+                        <div class="form-group" style="flex:1;">
+                            <label>Email</label>
+                            <input type="email" value="<%=data.email%>">
+                        </div>
+                        <div class="form-group" style="flex:1;">
+                            <label>Phone</label>
+                            <input type="text" value="<%=data.phone%>">
+                        </div>
+                    </div>
+                    <div class="form-row">
+                        <div class="form-group" style="flex:1;">
+                            <label>Gender</label>
+                            <input type="text" value="<%=data.gender%>">
+                        </div>
+                        <div class="form-group" style="flex:1;">
+                            <label>Date Of Birth</label>
+                            <input type="input" value="<%=data.dob%>">
+                        </div>
+                    </div>
+                     <div class="form-group">
+                        <label>College Name</label>
+                        <input type="text" value="<%=data.collegename%>">
+                    </div>
+                    <div class="form-group">
+                        <label>Address</label>
+                        <input type="text" value="<%=data.address%>">
+                    </div>
+                    <button class="update-btn" type="submit">Update</button>
+                </form>
+            </div>
+            </div>
+           
+        </div>
+    </div>
+</body>
+</html>
