@@ -5,6 +5,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Library Dashboard</title>
   <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <link rel="stylesheet" href="style.css">
 </head>
 <body>
@@ -14,30 +15,30 @@
       <div class="col-md-2 sidebar">
         <h3 class="text-center py-3"></h3>
 
-        <a href="/admindashboard?uid=<%=msg.uid%>" class="active">Dashboard</a>
-        <a href="/adminprofile?uid=<%=msg.uid%>">Profile</a>
-        <a href="/addbooks?uid=<%=msg.uid%>">Add Books</a>
-        <a href="/viewbooks?uid=<%=msg.uid%>">Manage Books</a>
-        <a href="/viewmembers?uid=<%=msg.uid%>">View Members</a>
-        <a href="/adminlogin">Logout</a>
+        <a href="/admindashboard?uid=<%=msg.uid%>" class="active"><i class="fas fa-tachometer-alt me-2"></i>Dashboard</a>
+        <a href="/adminprofile?uid=<%=msg.uid%>"><i class="fas fa-user me-2"></i>Profile</a>
+        <a href="/addbooks?uid=<%=msg.uid%>"><i class="fas fa-paper-plane me-2"></i>Add Books</a>
+        <a href="/viewbooks?uid=<%=msg.uid%>"><i class="fas fa-bell me-2"></i>Manage Books</a>
+        <a href="/viewmembers?uid=<%=msg.uid%>"><i class="fas fa-users me-2"></i>View Members</a>
+        <a href="/adminlogin"><i class="fa-solid fa-right-from-bracket"></i>Logout</a>
         
       </div>
       <div class="col-md-10">
         <div class="header d-flex justify-content-between align-items-center">
           <h4>Admin Dashboard</h4>
-          <div>Hello, Admin <%=msg.uname%>  </div>
+          <div>Hello, Admin <i class="fas fa-user-circle ms-2"></i> <%=msg.uname%>  </div>
         </div>
 
         <div class="row mt-4 px-3">
           <div class="col-md-3">
             <div class="card-stats card-members">
-              <h3>0</h3>
+              <h3><%=data1[0].count%></h3>
               <p>Total Members</p>
             </div>
           </div>
           <div class="col-md-3">
             <div class="card-stats card-books">
-              <h3>0</h3>
+              <h3><%=data[0].count%></h3>
               <p>Total Books</p>
             </div>
           </div>

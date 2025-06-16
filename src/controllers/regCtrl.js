@@ -19,21 +19,29 @@ exports.saveuser=(req,res)=>{
     let result=regservice.acceptRegdata(name,email,password,phone,address,date);
     res.render("signupstd.ejs",{msg:result});
 }
-exports.validadmin=(req,res)=>{
-    let{username,password}=req.body;
+exports.validadmin = (req, res) => {
+    let { username, password } = req.body;
 
-     let result=regmodels.validateuser(username,password);
-      result.then((r)=>{
-        if(r.length>0)
-        {
-             res.render("adminboard.ejs",{msg:r[0]});
-            
-        }
-        else{
-             res.render("loginadmin.ejs",{msg:"Admin not valid...."});
+    let result = regmodels.validateuser(username, password);
+    result.then(async (r) => {
+        if (r.length > 0) {
+            try {
+                let data1 = await regmodels.showbookcount();
+                let data2 = await regmodels.showmembercount();
+
+                res.render("adminboard.ejs", { msg: r[0], data: data1,data1: data2 });
+
+               
+            } catch (err) {
+                console.error("Error fetching book count:", err);
+                res.status(500).send("Error loading");
+            }
+        } else {
+            res.render("loginadmin.ejs", { msg: "Admin not valid...." });
         }
     });
-}
+};
+
 exports.validuser=(req,res)=>{
     let{username,password}=req.body;
 
@@ -101,21 +109,27 @@ exports.postbook=(req,res)=>{
       
 }
 
-exports.admindashboards= (req, res) => {
-  let couid = parseInt(req.query.uid.trim());
+exports.admindashboards = async (req, res) => {
+  try {
+    let couid = parseInt(req.query.uid.trim());
 
-  regmodels.showprofile(couid).then((result) => {
-    if (result.length > 0) {
-      res.render("adminboard.ejs", { msg: result[0] });
+    const profile = await regmodels.showprofile(couid);
+
+    if (profile.length > 0) {
     
+      const bookCount = await regmodels.showbookcount();
+      const membercount = await regmodels.showmembercount();
+      
+      res.render("adminboard.ejs", { msg: profile[0], data: bookCount,data1: membercount });
     } else {
-      res.render("adminboard.ejs", { msg: null, msg: "No user found." });
+      res.render("adminboard.ejs", { msg: "No user found.", data: null , data1: null});
     }
-  }).catch((err) => {
-    console.error("Error fetching profile:", err);
+  } catch (err) {
+    console.error("Error loading dashboard:", err);
     res.status(500).send("Server error");
-  });
+  }
 };
+
 exports.studviewbook = async (req, res) => {
     try {
         let result = await regmodels.showbooks();

@@ -78,6 +78,22 @@ exports.showmembers = () =>
             else resolve(result);
         });
     });
+exports.showbookcount = () => {
+    return new Promise((resolve, reject) => {
+        conn.query("SELECT COUNT(*) AS count FROM books", (err, result) => {
+            if (err) reject(err);
+            else resolve(result);
+        });
+    });
+};
+exports.showmembercount = () => {
+    return new Promise((resolve, reject) => {
+        conn.query("SELECT COUNT(*) AS count FROM members", (err, result) => {
+            if (err) reject(err);
+            else resolve(result);
+        });
+    });
+};
 
 exports.showprofile = (couid) => 
     new Promise((resolve, reject) => {
