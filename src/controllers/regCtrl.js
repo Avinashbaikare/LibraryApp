@@ -130,20 +130,6 @@ exports.admindashboards = async (req, res) => {
   }
 };
 
-exports.studviewbook = async (req, res) => {
-    try {
-        let result = await regmodels.showbooks();
-        
-        res.render("studviewbooks.ejs", { data: result });
-    } 
-    catch (error) {
-        console.error("Error fetching books:", error);
-        res.status(500).send("Internal Server Error");
-    }
-};
-exports.issubooks=(req,res)=>{
-    res.render("issuebooks.ejs");
-}
 exports.Regmembers=(req,res)=>{
     res.render("memberReg.ejs",{msg:""});
 }
@@ -202,6 +188,44 @@ exports.userprofile = (req, res) => {
       
     } else {
       res.render("userprofile.ejs", { data: null, msg: "No user found." });
+    }
+  }).catch((err) => {
+    console.error("Error fetching profile:", err);
+    res.status(500).send("Server error");
+  });
+};
+exports.studviewbook = async (req, res) => {
+      let userid = parseInt(req.query.id.trim());
+    
+    try {
+        
+        let result = await regmodels.showbooks();
+        regmodels.showUserprofile(userid).then((result1) => {
+    if (result1.length > 0) {
+      res.render("studviewbooks.ejs", { msg:"",data: result,data1: result1[0] });
+     
+      
+    } else {
+      res.render("studviewbooks.ejs", { data: null,data1:null, msg: "No user found." });
+    }
+  });
+        
+       
+    } 
+    catch (error) {
+        console.error("Error fetching books:", error);
+        res.status(500).send("Internal Server Error");
+    }
+};
+exports.issubooks=(req,res)=>{
+    let userid = parseInt(req.query.id.trim());
+
+  regmodels.showUserprofile(userid).then((result) => {
+    if (result.length > 0) {
+      res.render("issuebooks.ejs", { msg:"",data: result[0] });
+      
+    } else {
+      res.render("issuebooks.ejs", { data: null, msg: "No user found." });
     }
   }).catch((err) => {
     console.error("Error fetching profile:", err);
