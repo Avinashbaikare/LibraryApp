@@ -37,56 +37,54 @@
             <h5>Recents Circulations</h5>
             <button class="btn btn-primary">+ Add Issue</button>
           </div>
-          <table class="table table-bordered">
-            <thead>
-              <tr>
-                <th>Book Id</th>
-                <th>Title</th>
-                <th>Author</th>
-                <th>Publilsher</th>
-                <th>ISBN Code</th>
-                <th>Catagory</th>
-                <th>Total Copies</th>
-                <th>Available Copies</th>
-                <th>Status</th>
-                <th>Created At</th>
-                <th>UPDATE</th>
-                <th>DELETE</th>
+          <table class="table">
+    <thead>
+        <tr>
+            <th>Request ID</th>
+            <th>Student Name</th>
+            <th>Book ID</th>
+            <th>Book Title</th>
+            <th>Request Date</th>
+            <th>Status</th>
+            <th>Action</th>
+        </tr>
+    </thead>
+    <tbody>
+        <% if (data && data.length > 0) { %>
+            <% data.forEach(function(item) { %>
+                <tr>
+                    <td><%= item.request_id %></td>
+                    <td><%= item.name %></td>
+                    <td><%= item.book_id %></td>
+                    <td><%= item.title %></td>
+                    <td><%= item.request_date.toDateString() %></td>
+                    <td><%= item.status %></td>
+                    <td>
+    <!-- Approve Button -->
+   <form action="/approveRequest?uid=<%=data1.uid%>" method="POST" style="display:inline;">
+    <input type="hidden" name="request_id" value="<%= item.request_id%>">
+    <button type="submit" class="btn btn-success btn-sm">Approve</button>
+</form>
 
-              </tr>
-            </thead>
-            <tbody id="tBody">
-            <%
-                if(data.length==0){
-            %>
-            <tr><td colspan="6"><h1>There is no data present in database </h1></td></tr>
-            <%
-                }
-                else{
-                data.forEach((item,index)=>{
-            %>  
+    <!-- Reject Button -->
+     <form action="/rejectRequest?uid=<%=data1.uid%>" method="POST" style="display:inline;">
+    <input type="hidden" name="request_id" value="<%= item.request_id %>">
+    <button type="submit" class="btn btn-danger btn-sm">Reject</button>
+</form>
+</td>
+
+
+
+                </tr>
+            <% }) %>
+        <% } else { %>
             <tr>
-                <td ><%=(index+1)%></td>
-                <td><%=item.title%></td>
-                <td><%=item.author%></td>
-                <td><%=item.publisher%></td>
-                <td><%=item.isbn%></td>
-                <td><%=item.category%></td>
-                <td><%=item.total_copies%></td>
-                <td><%=item.available_copies%></td>
-                <td><%=item.status%></td>
-                <td><%=new Date(item.created_at).toDateString()%></td>
-                <td><a href="">UPDATE</a></td>
-                <td><a href="">DELETE</a></td>
+                <td colspan="6">No Pending Requests</td>
             </tr>
-            
-            <%
-                });
-            }
-            %>
-            
-        </tbody>
-          </table>
+        <% } %>
+    </tbody>
+</table>
+
         </div>
       </div>
     </div>

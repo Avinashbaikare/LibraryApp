@@ -110,5 +110,61 @@ exports.showprofile = (couid) =>
         
         });
     });
-    
-    
+   exports.requestbook = (student_id, book_id) =>
+    new Promise((resolve, reject) => {
+        const sql = `
+            INSERT INTO book_requests (student_id, book_id, request_date, status)
+            VALUES (?, ?, NOW(), 'Pending')
+        `;
+
+        conn.query(sql, [student_id, book_id], (err, result) => {
+            if (err) {
+                console.error("Error inserting book request:", err);
+                reject(err);
+            } else {
+                resolve(result);
+            }
+        });
+    });
+
+    exports.showrequests = () => {
+    return new Promise((resolve, reject) => {
+        conn.query("select * from book_requests", (err, result) => {
+            if (err) reject(err);
+            else resolve(result);
+        });
+    });
+};
+
+exports.showissuerequestadmin = () =>{
+     return new Promise((resolve, reject) => {
+         const sql = `
+            SELECT br.request_id, s.name,br.book_id, b.title, br.request_date, br.status
+FROM book_requests br
+JOIN members s ON br.student_id = s.id
+JOIN books b ON br.book_id = b.id;
+        `;
+        conn.query(sql, (err, result) => {
+            if (err) reject(err);
+            else resolve(result);
+        });
+    });
+}
+
+exports.acceptrequest = (couid) => 
+    new Promise((resolve, reject) => {
+        console.log(couid);
+        conn.query("UPDATE book_requests SET status = 'Approved' WHERE request_id = ?;",[couid], (err, result) => {
+            if (err) reject(err);
+            else resolve(result);
+        
+        });
+    });
+
+exports.rejectrequest = (couid) =>
+    new Promise((resolve,reject) => {
+        conn.query("UPDATE book_requests SET status = 'Rejected' WHERE request_id = ?;",[couid],(err,result) =>{
+            if(err) reject(err);
+            else resolve(result);
+        })
+    })    

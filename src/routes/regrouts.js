@@ -21,6 +21,10 @@ router.post("/savemember",regCtrl.savemembers);
 router.get("/viewmembers",regCtrl.viewmembers);
 router.get("/adminprofile",regCtrl.adminprofile);
 router.get("/userprofile",regCtrl.userprofile)
+router.post("/requestbook",regCtrl.requestbook);
+router.get("/issueboard",regCtrl.issueboard);
+router.post('/approverequest', regCtrl.approveRequest);
+router.post('/rejectrequest', regCtrl.rejectRequest);
 
 
 module.exports=router;

@@ -17,7 +17,8 @@
         <a href="/admindashboard?uid=<%=data1.uid%>" class="active"><i class="fas fa-tachometer-alt me-2"></i>Dashboard</a>
         <a href="/adminprofile?uid=<%=data1.uid%>"><i class="fas fa-user me-2"></i>Profile</a>
         <a href="/addbooks?uid=<%=data1.uid%>"><i class="fas fa-paper-plane me-2"></i>Add Books</a>
-        <a href="/viewbooks?uid=<%=data1.uid%>"><i class="fas fa-bell me-2"></i>Manage Books</a>
+       <a href="/viewbooks?uid=<%=data1.uid%>"><i class="fa-solid fa-book-open-reader"></i> Manage Books</a>
+        <a href="/issueboard?uid=<%=data1.uid%>"><i class="fas fa-bell me-2"></i></i>Issue book requests</a>
         <a href="/viewmembers?uid=<%=data1.uid%>"><i class="fas fa-users me-2"></i>View Members</a>
         <a href="/adminlogin"><i class="fa-solid fa-right-from-bracket"></i>Logout</a>
         
@@ -67,10 +68,10 @@
                 <td><%=item.email%></td>
                 <td><%=item.phone%></td>
                 <td><%=item.gender%></td>
-                <td><%=item.dob%></td>
+                <td><%=new Date(item.dob).toDateString()%></td>
                 <td><%=item.collegename%></td>
                 <td><%=item.address%></td>
-                <td><%=item.created_at%></td>
+                <td><%=new Date(item.created_at).toDateString()%></td>
                 <td><a href="#">update</a> </td>
                 <td><a href="#">Delete</a></td>
               

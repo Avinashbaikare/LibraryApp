@@ -64,10 +64,11 @@ exports.addbook= (req, res) => {
 
   regmodels.showprofile(couid).then((result) => {
     if (result.length > 0) {
+        
       res.render("addBooks.ejs", { msg:"",data: result[0] });
       
     } else {
-      res.render("addBooks.ejs", { data: null, msg: "No user found." });
+      res.render("addBooks.ejs", { data:null, msg: "No user found." });
     }
   }).catch((err) => {
     console.error("Error fetching profile:", err);
@@ -100,14 +101,27 @@ exports.viewbook = async (req, res) => {
     }
 };
 
-exports.postbook=(req,res)=>{
-    let{btitle,bauthor,bpublisher,isbn,bcatagory,btotalcopies,bavailablecopies,bstatus}=req.body;
-    let date=new Date();
-        
-     let result=regservice.acceptbook(btitle,bauthor,bpublisher,isbn,bcatagory,btotalcopies,bavailablecopies,bstatus,date);
-      res.render("addBooks.ejs",{msg:result});
-      
-}
+exports.postbook = (req, res) => {
+  let { uid, btitle, bauthor, bpublisher, isbn, bcatagory, btotalcopies, bavailablecopies, bstatus } = req.body;
+  let date = new Date();
+
+  let result = regservice.acceptbook(btitle, bauthor, bpublisher, isbn, bcatagory, btotalcopies, bavailablecopies, bstatus, date);
+
+  let couid = parseInt(uid.trim());
+
+  regmodels.showprofile(couid).then((result) => {
+    if (result.length > 0) {
+      res.render("addBooks.ejs", { msg: "book is added", data: result[0] });
+    } else {
+      res.render("addBooks.ejs", { data: null, msg: "No user found." });
+    }
+  }).catch((err) => {
+    console.error("Error fetching profile:", err);
+    res.status(500).send("Server error");
+  });
+};
+
+
 
 exports.admindashboards = async (req, res) => {
   try {
@@ -217,18 +231,123 @@ exports.studviewbook = async (req, res) => {
         res.status(500).send("Internal Server Error");
     }
 };
-exports.issubooks=(req,res)=>{
+exports.issubooks = (req, res) => {
     let userid = parseInt(req.query.id.trim());
 
-  regmodels.showUserprofile(userid).then((result) => {
-    if (result.length > 0) {
-      res.render("issuebooks.ejs", { msg:"",data: result[0] });
-      
-    } else {
-      res.render("issuebooks.ejs", { data: null, msg: "No user found." });
+    // Fetch user profile AND all requests at the same time
+    Promise.all([
+        regmodels.showUserprofile(userid),
+        regmodels.showrequests()
+    ])
+    .then(([userResult, allRequests]) => {
+        if (userResult.length > 0) {
+            res.render("issuebooks.ejs", {
+                msg: "",
+                data: userResult[0],      // profile
+                requests: allRequests     // all book requests
+            });
+        } else {
+            res.render("issuebooks.ejs", {
+                msg: "No user found.",
+                data: null,
+                requests: allRequests     // still show requests
+            });
+        }
+    })
+    .catch((err) => {
+        console.error("Error fetching profile or requests:", err);
+        res.status(500).send("Server error");
+    });
+};
+
+exports.requestbook = (req, res) => {
+    const { student_id, book_id } = req.body;
+
+    regmodels.requestbook(student_id, book_id)
+        .then(() => {
+            
+            return Promise.all([
+                regmodels.showrequests(),
+                regmodels.showUserprofile(student_id)
+            ]);
+        })
+        .then(([allRequests, userProfile]) => {
+        
+            res.render("issuebooks.ejs", {
+                msg: "Book request submitted successfully.",
+                requests: allRequests,
+                data: userProfile[0]  
+            });
+        })
+        .catch((err) => {
+            console.error("Error inserting book request or fetching data:", err);
+            res.status(500).send("Server error");
+        });
+};
+
+exports.issueboard = async (req, res) => {
+    let adminid = parseInt(req.query.uid.trim());  
+    
+    try {
+        let result1 = await regmodels.showprofile(adminid);
+        let issueRequests = await regmodels.showissuerequestadmin();  // call your function
+
+        if (result1.length > 0) {
+            res.render("issueboardadmin.ejs", {
+                data1: result1[0],      
+                data: issueRequests   
+            });
+        } else {
+            res.render("issueboardadmin.ejs", {
+                data1: null,
+                data: null,
+                msg: "No user found."
+            });
+        }
+    } catch (err) {
+        console.error("Error fetching profile or requests:", err);
+        res.status(500).send("Server error");
     }
-  }).catch((err) => {
-    console.error("Error fetching profile:", err);
-    res.status(500).send("Server error");
-  });
+};
+
+// Approve request
+exports.approveRequest = async (req, res) => {
+   let{request_id}=req.body;  // You need admin_id in form also!
+   let data1_uid = parseInt(req.query.uid.trim());  
+    console.log(data1_uid);
+    try {
+        await regmodels.acceptrequest(request_id);
+        let profileResult = await regmodels.showprofile(data1_uid);
+        let requestsResult = await regmodels.showissuerequestadmin();
+    
+    
+        res.render("issueboardadmin.ejs", {
+            data1: profileResult[0],
+            data: requestsResult
+        });
+    } catch (err) {
+        console.error("Error approving request:", err);
+        res.status(500).send("Server error");
+    }
+};
+
+
+// Reject request
+exports.rejectRequest = async (req, res) => {
+   let{request_id}=req.body;  
+   let data1_uid = parseInt(req.query.uid.trim());  
+    
+    try {
+        await regmodels.rejectrequest(request_id);
+        let profileResult = await regmodels.showprofile(data1_uid);
+        let requestsResult = await regmodels.showissuerequestadmin();
+
+        res.render("issueboardadmin.ejs", {
+            data1: profileResult[0],
+            data: requestsResult
+        });
+    } catch (err) {
+        console.error("Error approving request:", err);
+        res.status(500).send("Server error");
+    }
 };

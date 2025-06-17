@@ -57,7 +57,7 @@
                 <td><%=item.status%></td>
                 <td>
                    <form action="/requestbook" method="POST">
-                    <input type="hidden" name="student_id" value="<%= item.id %>">
+                    <input type="hidden" name="student_id" value="<%= data1.id %>">
                     <input type="hidden" name="book_id" value="<%= item.id %>">
                     <button type="submit" class="btn btn-danger">Request book</button>
                    </form>
@@ -79,23 +79,5 @@
   <div class="footer">
     © 2025 Library Management System
   </div>
- <script>
-  function toggleIssueRequest(button) {
-    if (button.innerText === 'Issue') {
-      button.innerText = 'Request Sent';
-      button.classList.remove('btn-danger');
-      button.classList.add('btn-success');
-    } else {
-      button.innerText = 'Issue';
-      button.classList.remove('btn-success');
-      button.classList.add('btn-danger');
-    }
-  }
-</script>
-
-
-
-
-
 </body>
 </html>
