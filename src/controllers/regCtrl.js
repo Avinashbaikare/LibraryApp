@@ -1,7 +1,7 @@
 let regservice=require("../services/regservices.js");
 let regmodels=require("../models/regmodels.js");
 exports.home=(req,res)=>{
-    res.render("home.ejs");
+    res.render("home2.ejs");
 }
 exports.signup=(req,res)=>{
     res.render("loginuser.ejs",{msg:""});
