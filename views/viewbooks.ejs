@@ -76,7 +76,7 @@
                 <td><%=item.available_copies%></td>
                 <td><%=item.status%></td>
                 <td><%=new Date(item.created_at).toDateString()%></td>
-                <td><a href="">UPDATE</a></td>
+                <td><a href="/updatebook?uid=<%=item.id%>">UPDATE</a></td>
                 <td><a href="">DELETE</a></td>
             </tr>
             

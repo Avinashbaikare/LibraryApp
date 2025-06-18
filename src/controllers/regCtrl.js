@@ -351,3 +351,58 @@ exports.rejectRequest = async (req, res) => {
         res.status(500).send("Server error");
     }
 };
+  exports.userdashboard = async (req, res) => {
+  try {
+    let userid = parseInt(req.query.id.trim());
+
+    const profile = await regmodels.showUserprofile(userid);
+
+    if (profile.length > 0) {
+      
+      res.render("userboard.ejs", { msg: profile[0]});
+    } else {
+      res.render("userboard.ejs", { msg: "No user found."});
+    }
+  } catch (err) {
+    console.error("Error loading dashboard:", err);
+    res.status(500).send("Server error");
+  }
+};
+exports.updatebooks=async (req, res) => {
+     let couid = parseInt(req.query.uid.trim());
+     console.log(couid);
+     try {  
+        let result = await regmodels.showbooks();
+        regmodels.updatebook(couid).then((result1) => {
+          if (result1.length > 0) {
+            res.render("updatebooks.ejs", {data1: result1[0],msg:""});
+          }
+          else {
+             res.render("updatebooks.ejs", {data1:null, msg: "No user found." });
+            }
+        });
+      } 
+     catch (error) {
+        console.error("Error fetching books:", error);
+        res.status(500).send("Internal Server Error");
+     }
+ };
+exports.saveupdatebook=async (req, res) => {
+    
+     
+     let {bookid,btitle,bauthor,bpublisher,isbn,bcategory,btotalcopies,bavailablecopies,bstatus}=req.body;
+     try {  
+        
+        regmodels.saveupdatebook(bookid,btitle,bauthor,bpublisher,isbn,bcategory,btotalcopies,bavailablecopies,bstatus).then((result1) => {
+        
+            res.render("updatebooks.ejs", {data1:[],msg:"Book is updated" });
+          
+          
+        });
+      } 
+     catch (error) {
+        console.error("Error fetching books:", error);
+        res.status(500).send("Internal Server Error");
+     }
+
+ }

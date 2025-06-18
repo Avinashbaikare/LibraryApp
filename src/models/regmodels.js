@@ -167,4 +167,19 @@ exports.rejectrequest = (couid) =>
             if(err) reject(err);
             else resolve(result);
         })
-    })    
+    });
+   exports.updatebook = (couid) => 
+     new Promise((resolve, reject) => {
+        conn.query("SELECT * FROM books where id=?;",[couid], (err, result) => { 
+              if (err) reject(err);
+            else resolve(result);
+        });
+     });  
+exports.saveupdatebook = (bookid,title,author,publisher,isbn,category,totalcopies,avilablecopies,status) => 
+    new Promise((resolve, reject) => {
+        conn.query("update books set title=?,author=?,publisher=?,isbn=?,category=?,total_copies=?,available_copies=?,status=? where id=?;",[title,author,publisher,isbn,category,totalcopies,avilablecopies,status,bookid], (err, result) => {
+            if (err) reject(err);
+            else resolve(result);
+        
+        });
+    }); 

@@ -25,6 +25,9 @@ router.post("/requestbook",regCtrl.requestbook);
 router.get("/issueboard",regCtrl.issueboard);
 router.post('/approverequest', regCtrl.approveRequest);
 router.post('/rejectrequest', regCtrl.rejectRequest);
+router.get("/userdashboard",regCtrl.userdashboard);
+router.get("/updatebook",regCtrl.updatebooks);
+router.post("/saveupdatebook",regCtrl.saveupdatebook);
 
 
 module.exports=router;

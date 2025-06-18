@@ -13,11 +13,11 @@
     <div class="row">
       <div class="col-md-2 sidebar">
         <h3 class="text-center py-3"></h3>
-        <a href="#" class="active">Dashboard</a>
+        <a href="/userdashboard?id=<%=msg.id%>" class="active">Dashboard</a>
         <a href="/userprofile?id=<%=msg.id%>">Profile</a>
         <a href="/studviewbook?id=<%=msg.id%>">View Books</a>
         <a href="/issubook?id=<%=msg.id%>">Issue  Books</a>
-        <a href="#">Logout</a>
+        <a href="/userLogin">Logout</a>
         
       </div>
       <div class="col-md-10">
@@ -25,6 +25,32 @@
             <h4>User Dashboard</h4>
             <div>Hello,<%=msg.name%>  </div>
           </div>
+          <div class="row mt-4 px-3">
+          <div class="col-md-3">
+            <div class="card-stats card-members">
+              <h3>0</h3>
+              <p>Total Members</p>
+            </div>
+          </div>
+          <div class="col-md-3">
+            <div class="card-stats card-books">
+              <h3>0</h3>
+              <p>Total Books</p>
+            </div>
+          </div>
+          <div class="col-md-3">
+            <div class="card-stats card-issued">
+              <h3>0</h3>
+              <p>Issue Books</p>
+            </div>
+          </div>
+          <div class="col-md-3">
+            <div class="card-stats card-returned">
+              <h3>0</h3>
+              <p>Return Books</p>
+            </div>
+          </div>
+        </div>
       </div>
     </div>
   </div>
