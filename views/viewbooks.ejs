@@ -41,6 +41,7 @@
             <thead>
               <tr>
                 <th>Book Id</th>
+                <th>image</th>
                 <th>Title</th>
                 <th>Author</th>
                 <th>Publilsher</th>
@@ -65,8 +66,9 @@
                 else{
                 data.forEach((item,index)=>{
             %>  
-            <tr>
+            <tr style="text-align: center; vertical-align: middle;">
                 <td ><%=(index+1)%></td>
+                <td><img src="<%=item.image%>" style="width: 100px; height: 150px;" ></td>
                 <td><%=item.title%></td>
                 <td><%=item.author%></td>
                 <td><%=item.publisher%></td>

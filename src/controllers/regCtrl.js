@@ -102,10 +102,10 @@ exports.viewbook = async (req, res) => {
 };
 
 exports.postbook = (req, res) => {
-  let { uid, btitle, bauthor, bpublisher, isbn, bcatagory, btotalcopies, bavailablecopies, bstatus } = req.body;
+  let { uid, btitle, bauthor, bpublisher, isbn, bcatagory, btotalcopies, bavailablecopies,bstatus,bimage } = req.body;
   let date = new Date();
-
-  let result = regservice.acceptbook(btitle, bauthor, bpublisher, isbn, bcatagory, btotalcopies, bavailablecopies, bstatus, date);
+    
+  let result = regservice.acceptbook(btitle, bauthor, bpublisher, isbn, bcatagory, btotalcopies, bavailablecopies,bstatus,bimage,date);
 
   let couid = parseInt(uid.trim());
 

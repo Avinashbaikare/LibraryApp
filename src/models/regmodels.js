@@ -9,8 +9,8 @@ exports.saveUser=(...regdata)=>{
 };
 exports.savebook=(...regdata)=>{
     
-    
-    conn.query("insert into books values('0',?,?,?,?,?,?,?,?,?)",[...regdata],(err,result)=>{
+    console.log(regdata);
+    conn.query("insert into books values('0',?,?,?,?,?,?,?,?,?,?)",[...regdata],(err,result)=>{
         if(err)
         {
             return false;

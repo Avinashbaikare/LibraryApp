@@ -30,8 +30,9 @@
     <!-- Example Book Card -->
     <table class="table table-bordered">
             <thead>
-              <tr>
+              <tr style="text-align: center; vertical-align: middle;">
                 <th>Book Id</th>
+                <th>image</th>
                 <th>Title</th>
                 <th>Author</th>
                 <th>Catagory</th>
@@ -49,19 +50,20 @@
                 else{
                 data.forEach((item,index)=>{
             %>  
-            <tr>
+            <tr style="text-align: center; vertical-align: middle;">
                 <td><%=(index+1)%></td>
+                <td><img src="<%=item.image%>" style="width: 100px; height: 150px;"> </td>
                 <td><%=item.title%></td>
                 <td><%=item.author%></td>
                 <td><%=item.category%></td>
                 <td><%=item.status%></td>
-                <td>
+                
                    <form action="/requestbook" method="POST">
                     <input type="hidden" name="student_id" value="<%= data1.id %>">
                     <input type="hidden" name="book_id" value="<%= item.id %>">
-                    <button type="submit" class="btn btn-danger">Request book</button>
+                    <td><button type="submit" class="btn btn-danger">Request book</button></td>
                    </form>
-                   </td>
+                   
 
 
 
