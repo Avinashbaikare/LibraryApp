@@ -403,6 +403,29 @@ exports.saveupdatebook=async (req, res) => {
      catch (error) {
         console.error("Error fetching books:", error);
         res.status(500).send("Internal Server Error");
-     }
+    }
 
- }
+ };
+exports.borrowbooks= async (req, res) => {
+      let userid = parseInt(req.query.id.trim());
+    
+    try {
+        
+        let result = await regmodels.showbooks();
+        regmodels.showUserprofile(userid).then((result1) => {
+    if (result1.length > 0) {
+      res.render("stdborrowbooks.ejs", { msg:"",data: result,data1: result1[0] });
+     
+      
+    } else {
+      res.render("stdborrowbooks.ejs", { data: null,data1:null, msg: "No user found." });
+    }
+  });
+        
+       
+    } 
+    catch (error) {
+        console.error("Error fetching books:", error);
+        res.status(500).send("Internal Server Error");
+    }
+};
