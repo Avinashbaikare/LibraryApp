@@ -42,22 +42,31 @@ exports.validadmin = (req, res) => {
     });
 };
 
-exports.validuser=(req,res)=>{
-    let{username,password}=req.body;
+exports.validuser = (req, res) => {
+    let { username, password } = req.body;
 
-     let result=regmodels.validateuserlogin(username,password);
-      result.then((r)=>{
-        if(r.length>0)
-        {
-             res.render("userboard.ejs",{msg:r[0]});
-            
-            
+    regmodels.validateuserlogin(username, password).then(async (r) => {
+        if (r.length > 0) {
+            let id = r[0].id;
+            try {
+                
+                let data1 = await regmodels.totalrequest(id);
+                let data2=await regmodels.approvedrequest(id);
+                
+                res.render("userboard.ejs", { msg: r[0], data: data1 ,data1: data2 });
+            } catch (err) {
+                console.error("Error fetching book count:", err);
+                res.status(500).send("Error loading user dashboard");
+            }
+        } else {
+            res.render("loginuser.ejs", { msg: "User Not Valid...." });
         }
-        else{
-             res.render("loginuser.ejs",{msg:"User Not Valid...."});
-        }
+    }).catch((err) => {
+        console.error("Login validation error:", err);
+        res.status(500).send("Internal Server Error");
     });
-}
+};
+
 
 exports.addbook= (req, res) => {
   let couid = parseInt(req.query.uid.trim());
@@ -358,10 +367,12 @@ exports.rejectRequest = async (req, res) => {
     const profile = await regmodels.showUserprofile(userid);
 
     if (profile.length > 0) {
+      const requestcount = await regmodels.totalrequest(userid);
+      const approvedcount= await regmodels.approvedrequest(userid);
       
-      res.render("userboard.ejs", { msg: profile[0]});
+      res.render("userboard.ejs", { msg: profile[0],data: requestcount, data1: approvedcount});
     } else {
-      res.render("userboard.ejs", { msg: "No user found."});
+      res.render("userboard.ejs", { msg: "No user found.", data: null, data1: null});
     }
   } catch (err) {
     console.error("Error loading dashboard:", err);

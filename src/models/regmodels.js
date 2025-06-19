@@ -211,3 +211,19 @@ WHERE
             else resolve(result);
         });
      });  
+exports.totalrequest = (id) => {
+    return new Promise((resolve, reject) => {
+        conn.query("SELECT COUNT(*) AS count FROM book_requests where student_id=?",[id], (err, result) => {
+            if (err) reject(err);
+            else resolve(result);
+        });
+    });
+};
+exports.approvedrequest = (id) => {
+    return new Promise((resolve, reject) => {
+        conn.query("SELECT COUNT(*) AS count FROM book_requests where student_id=? and status='Approved' ",[id], (err, result) => {
+            if (err) reject(err);
+            else resolve(result);
+        });
+    });
+}
