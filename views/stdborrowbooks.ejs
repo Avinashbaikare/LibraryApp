@@ -51,7 +51,10 @@
                 <td ><%=(index+1)%></td>
                 <td><img src="<%=item.image%>" style="width: 100px; height: 150px;" ></td>
                 <td><%=item.title%></td>
-                <td><button>Read Book</button></td>
+                <td>
+                <a href="<%= item.link %>" target="_blank" class="btn btn-primary">Read Book</a>
+                </td>
+
             </tr>
             
             <%
