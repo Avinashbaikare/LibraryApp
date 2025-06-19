@@ -2,7 +2,7 @@ let mysql=require("mysql2");
 let conn=mysql.createConnection({
     host:'localhost',
     user:'root',
-    password:'Avinash@2001',
+    password:'root123',
     database:'LibraryApp'
 });
 
