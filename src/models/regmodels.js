@@ -10,7 +10,7 @@ exports.saveUser=(...regdata)=>{
 exports.savebook=(...regdata)=>{
     
     console.log(regdata);
-    conn.query("insert into books values('0',?,?,?,?,?,?,?,?,?,?)",[...regdata],(err,result)=>{
+    conn.query("insert into books values('0',?,?,?,?,?,?,?,?,?,?,?)",[...regdata],(err,result)=>{
         if(err)
         {
             return false;
@@ -194,7 +194,8 @@ new Promise((resolve, reject) => {
     b.publisher,
     b.isbn,
     b.category,
-    b.image
+    b.image,
+    b.link
 FROM 
     book_requests br
 JOIN 
