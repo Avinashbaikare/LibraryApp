@@ -237,7 +237,7 @@ exports.issubooks = (req, res) => {
     // Fetch user profile AND all requests at the same time
     Promise.all([
         regmodels.showUserprofile(userid),
-        regmodels.showrequests()
+        regmodels.showrequests(userid)
     ])
     .then(([userResult, allRequests]) => {
         if (userResult.length > 0) {
@@ -267,7 +267,7 @@ exports.requestbook = (req, res) => {
         .then(() => {
             
             return Promise.all([
-                regmodels.showrequests(),
+                regmodels.showrequests(student_id),
                 regmodels.showUserprofile(student_id)
             ]);
         })
@@ -370,7 +370,7 @@ exports.rejectRequest = async (req, res) => {
 };
 exports.updatebooks=async (req, res) => {
      let couid = parseInt(req.query.uid.trim());
-     console.log(couid);
+     
      try {  
         let result = await regmodels.showbooks();
         regmodels.updatebook(couid).then((result1) => {
@@ -411,7 +411,7 @@ exports.borrowbooks= async (req, res) => {
     
     try {
         
-        let result = await regmodels.showbooks();
+        let result = await regmodels.showborrowbooks(userid);
         regmodels.showUserprofile(userid).then((result1) => {
     if (result1.length > 0) {
       res.render("stdborrowbooks.ejs", { msg:"",data: result,data1: result1[0] });

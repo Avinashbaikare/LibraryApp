@@ -127,9 +127,9 @@ exports.showprofile = (couid) =>
         });
     });
 
-    exports.showrequests = () => {
+    exports.showrequests = (student_id) => {
     return new Promise((resolve, reject) => {
-        conn.query("select * from book_requests", (err, result) => {
+        conn.query("select * from book_requests where student_id=?;",[student_id], (err, result) => {
             if (err) reject(err);
             else resolve(result);
         });
@@ -153,7 +153,6 @@ JOIN books b ON br.book_id = b.id;
 
 exports.acceptrequest = (couid) => 
     new Promise((resolve, reject) => {
-        console.log(couid);
         conn.query("UPDATE book_requests SET status = 'Approved' WHERE request_id = ?;",[couid], (err, result) => {
             if (err) reject(err);
             else resolve(result);
@@ -183,3 +182,31 @@ exports.saveupdatebook = (bookid,title,author,publisher,isbn,category,totalcopie
         
         });
     }); 
+exports.showborrowbooks = (couid) =>
+new Promise((resolve, reject) => {
+    const sql = `SELECT 
+    br.request_id,
+    br.student_id,
+    br.book_id,
+    br.request_date,
+    b.title,
+    b.author,
+    b.publisher,
+    b.isbn,
+    b.category,
+    b.image
+FROM 
+    book_requests br
+JOIN 
+    books b
+ON 
+    br.book_id = b.id
+WHERE 
+    br.status = 'Approved'
+    AND br.student_id = ?;               
+        `;
+        conn.query(sql,[couid], (err, result) => { 
+              if (err) reject(err);
+            else resolve(result);
+        });
+     });  
