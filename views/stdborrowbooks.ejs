@@ -106,6 +106,10 @@
             <label for="amount" class="form-label">Amount (₹)</label>
             <input type="number" name="amount" id="amount" class="form-control" value="500" readonly>
           </div>
+          <div class="mb-3">
+             
+            <img src="pay.png" style="width: 300px; height: 300px;margin-left: 100px;">
+          </div>
           
           <button type="button" class="btn btn-primary" id="confirmPayBtn">Pay Now</button>
 
@@ -157,7 +161,7 @@ function updateRemainingTimes() {
   spans.forEach(span => {
     const requestDate = parseInt(span.getAttribute('data-request-date'), 10);
     const submitDate = new Date(requestDate);
-    submitDate.setDate(submitDate.getDate() + 7); // 7 days return date
+    submitDate.setSeconds(submitDate.getSeconds() + 90000); // 7 days return date
 
     const now = new Date();
     const diff = submitDate - now;
