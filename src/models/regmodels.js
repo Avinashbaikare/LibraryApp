@@ -6,7 +6,7 @@ exports.saveUser=(...regdata)=>{
         conn.query("INSERT INTO users VALUES ('0',?,?,?,?,?,?)", [...regdata], (err, result) => {
             if (err) {
                 console.error("Insert Error:", err);
-                resolve(false); // or reject(err) if you prefer
+                resolve(false); 
             } else {
                 resolve(true);
             }
