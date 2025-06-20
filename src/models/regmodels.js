@@ -31,7 +31,7 @@ exports.savebook=(...regdata)=>{
 
 exports.validateuser=(...logdata)=>{
     let promise=new Promise((resolve,rejuct)=>{
-         conn.query("select * from users where uname=? and password=?;",[...logdata],(err,result)=>{
+         conn.query("select * from users where uemail=? and password=?;",[...logdata],(err,result)=>{
         if(err)
         {
             rejuct(err);
@@ -47,7 +47,7 @@ exports.validateuser=(...logdata)=>{
 };
 exports.validateuserlogin=(...logdata)=>{
     let promise=new Promise((resolve,rejuct)=>{
-         conn.query("select * from members where name=? and password=?;",[...logdata],(err,result)=>{
+         conn.query("select * from members where email=? and password=?;",[...logdata],(err,result)=>{
         if(err)
         {
             rejuct(err);
