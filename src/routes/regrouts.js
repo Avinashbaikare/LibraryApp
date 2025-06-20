@@ -29,6 +29,7 @@ router.get("/userdashboard",regCtrl.userdashboard);
 router.get("/updatebook",regCtrl.updatebooks);
 router.post("/saveupdatebook",regCtrl.saveupdatebook);
 router.get("/borrowbooks",regCtrl.borrowbooks);
+router.get("/deletebook",regCtrl.deletebook);
 
 
 module.exports=router;

@@ -448,3 +448,15 @@ exports.borrowbooks= async (req, res) => {
         res.status(500).send("Internal Server Error");
     }
 };
+exports.deletebook = async (req, res) => {
+  let bid = parseInt(req.query.bid.trim());
+  let uid = parseInt(req.query.uid.trim()); 
+
+  try {
+    await regmodels.deletebook(bid);
+    res.redirect("/viewbooks?uid=" + uid); 
+  } catch (err) {
+    console.error("Error deleting book:", err);
+    res.status(500).send("Failed to delete book.");
+  }
+};

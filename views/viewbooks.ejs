@@ -79,7 +79,7 @@
         <td> <a href="/updatebook?uid=<%=item.id%>" class="btn btn-sm btn-warning">UPDATE</a>
            
         </td>
-        <td> <a href="" class="btn btn-sm btn-danger">DELETE</a></td>
+        <td> <a href="/deletebook?bid=<%= item.id %>&uid=<%= data1.uid %>" class="btn btn-sm btn-danger" onclick="return confirm('Are you sure you want to delete this book?')">DELETE</a></td>
       </tr>
       <% }); } %>
     </tbody>

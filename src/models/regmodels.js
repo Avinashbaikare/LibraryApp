@@ -237,3 +237,11 @@ exports.approvedrequest = (id) => {
         });
     });
 }
+exports.deletebook = (bid) => {
+  return new Promise((resolve, reject) => {
+    conn.query("DELETE FROM books WHERE id = ?", [bid], (err, result) => {
+      if (err) reject(err);
+      else resolve(result);
+    });
+  });
+};
