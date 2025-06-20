@@ -43,7 +43,10 @@
                 <th>Book Id</th>
                 <th>image</th>
                 <th>Title</th>
-                <th>Author</th>
+                <th>request_date</th>
+                <th>last date for return</th>
+                <th>Action</th>
+                
               </tr>
             </thead>
             <tbody id="tBody">
@@ -60,8 +63,16 @@
                 <td ><%=(index+1)%></td>
                 <td><img src="<%=item.image%>" style="width: 100px; height: 150px;" ></td>
                 <td><%=item.title%></td>
+                <td><%=  new Date(item.request_date).toDateString() %></td>
+                <td>
+                <span class="remaining-time" 
+                 data-request-date="<%= new Date(item.request_date).getTime() %>"></span>
+                 
+                </td>
+
                 <td>
                 <a href="<%= item.link %>" target="_blank" class="btn btn-primary">Read Book</a>
+                
                 </td>
 
             </tr>
@@ -78,6 +89,34 @@
     </div>
     
 </div>
+<!-- Modal -->
+<div class="modal fade" id="payFeesModal" tabindex="-1" aria-labelledby="payFeesModalLabel" aria-hidden="true">
+  <div class="modal-dialog modal-dialog-centered modal-dialog-scrollable" style="max-width: 600px;">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="payFeesModalLabel">Pay Fees</h5>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>
+      <div class="modal-body">
+        <p>Your return date has expired. Please pay the late fees to continue.</p>
+        <form action="/payfees" method="POST">
+          <input type="hidden" name="student_id" value="<%= data1.id %>">
+          
+          <div class="mb-3">
+            <label for="amount" class="form-label">Amount (₹)</label>
+            <input type="number" name="amount" id="amount" class="form-control" value="500" readonly>
+          </div>
+          
+          <button type="button" class="btn btn-primary" id="confirmPayBtn">Pay Now</button>
+
+        </form>
+      </div>
+    </div>
+  </div>
+</div>
+
+
+
 <script>
   document.getElementById('search').addEventListener('input', function() {
     const filter = this.value.toLowerCase();
@@ -109,6 +148,63 @@
       }
     }
   });
+
+
+
+function updateRemainingTimes() {
+  const spans = document.querySelectorAll('.remaining-time');
+
+  spans.forEach(span => {
+    const requestDate = parseInt(span.getAttribute('data-request-date'), 10);
+    const submitDate = new Date(requestDate);
+    submitDate.setDate(submitDate.getDate() + 7); // 7 days return date
+
+    const now = new Date();
+    const diff = submitDate - now;
+
+    // check if button is already paid (Return Book shown)
+    const alreadyPaid = span.classList.contains('paid'); 
+
+
+    if (diff > 0 || alreadyPaid) {
+      // If not expired — show countdown + Return button OR already paid
+      const days = Math.floor(diff / (1000 * 60 * 60 * 24));
+      const hours = Math.floor((diff % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+      const minutes = Math.floor((diff % (1000 * 60 * 60)) / (1000 * 60));
+      const seconds = Math.floor((diff % (1000 * 60)) / 1000);
+
+      span.innerHTML = `
+        <div>${days}d ${hours}h ${minutes}m ${seconds}s</div>
+        <button class="btn btn-success btn-sm mt-2 return-book-btn">Return Book</button>
+      `;
+    } else {
+      
+      span.innerHTML = `
+        <button class="btn btn-warning btn-sm pay-fees-btn">Pay Fees</button>
+      `;
+    }
+  });
+}
+setInterval(updateRemainingTimes, 1000);
+updateRemainingTimes();
+
+
+
+let currentPayButton = null; // store clicked button
+
+document.addEventListener('click', function(e) {
+  if (e.target && e.target.classList.contains('pay-fees-btn')) {
+    // open modal
+    const modal = new bootstrap.Modal(document.getElementById('payFeesModal'));
+    modal.show();
+
+    // remember which Pay Fees button was clicked
+    currentPayButton = e.target;
+  }
+});
+
 </script>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+
 </body>
 </html>
