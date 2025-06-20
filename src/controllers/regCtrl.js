@@ -454,6 +454,7 @@ exports.deletebook = async (req, res) => {
 
   try {
     await regmodels.deletebook(bid);
+    await regmodels.deleteissudata(bid);
     res.redirect("/viewbooks?uid=" + uid); 
   } catch (err) {
     console.error("Error deleting book:", err);

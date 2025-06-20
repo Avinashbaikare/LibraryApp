@@ -253,3 +253,11 @@ exports.removemember=(uid)=>{
     });
   });
 };
+exports.deleteissudata = (bid) => {
+  return new Promise((resolve, reject) => {
+    conn.query("delete from book_requests where book_id=?",[bid],(err,result)=>{
+        if (err) reject(err);
+      else resolve(result);
+    });
+  });
+};
