@@ -28,7 +28,17 @@
             <div>Hello,<%=data1.name%></div>
           </div>
 
-  <div class="container mt-5">
+           <div class="px-4 mt-5">
+  <div class="d-flex justify-content-between align-items-center mb-3">
+    <div class="input-group" style="width: 50%; margin-left: 600px;">
+      <span class="input-group-text bg-white"><i class="fa-solid fa-magnifying-glass"></i></span>
+      <input type="text" class="form-control" id="search" placeholder="Search book...">
+    </div>
+  </div>
+</div>
+
+
+  <div style="max-height: 500px; overflow: auto;">
     <!-- Example Book Card -->
     <table class="table table-bordered">
             <thead>
@@ -83,5 +93,38 @@
   <div class="footer">
     © 2025 Library Management System
   </div>
+  <script>
+  document.getElementById('search').addEventListener('input', function() {
+    const filter = this.value.toLowerCase();
+    let visibleCount = 0;
+
+    document.querySelectorAll('#tBody tr').forEach(row => {
+      const rowText = Array.from(row.cells)
+        .map(cell => cell.textContent.toLowerCase())
+        .join(' ');
+
+      const isVisible = rowText.includes(filter);
+      row.style.display = isVisible ? '' : 'none';
+
+      if (isVisible) visibleCount++;
+    });
+
+    // If no visible rows, show message row
+    let messageRow = document.getElementById('noDataRow');
+    if (visibleCount === 0) {
+      if (!messageRow) {
+        messageRow = document.createElement('tr');
+        messageRow.id = 'noDataRow';
+        messageRow.innerHTML = `<td colspan="7" class="text-center text-danger"><h5>No books found</h5></td>`;
+        document.getElementById('tBody').appendChild(messageRow);
+      }
+    } else {
+      if (messageRow) {
+        messageRow.remove();
+      }
+    }
+  });
+</script>
+
 </body>
 </html>
