@@ -2,10 +2,16 @@ let conn=require("../config/db.js");
   
 exports.saveUser=(...regdata)=>{
   
-    conn.query("insert into users values('0',?,?,?,?,?,?)",[...regdata],(err,result)=>{   
-
+    return new Promise((resolve, reject) => {
+        conn.query("INSERT INTO users VALUES ('0',?,?,?,?,?,?)", [...regdata], (err, result) => {
+            if (err) {
+                console.error("Insert Error:", err);
+                resolve(false); // or reject(err) if you prefer
+            } else {
+                resolve(true);
+            }
+        });
     });
-    return true;
 };
 exports.savebook=(...regdata)=>{
     
@@ -63,12 +69,16 @@ exports.showbooks = () =>
         });
     });
 exports.saveMember=(...regdata)=>{
-    console.log(regdata)
-    conn.query("insert into members values('0',?,?,?,?,?,?,?,?,?)",[...regdata],(err,result)=>{
-      
-
+   return new Promise((resolve, reject) => {
+        conn.query("INSERT INTO members VALUES ('0', ?, ?, ?, ?, ?, ?, ?, ?, ?)", [...regdata], (err, result) => {
+            if (err) {
+                console.error("DB Error:", err);
+                resolve(false);
+            } else {
+                resolve(true);
+            }
+        });
     });
-    return true;
 };
 exports.showmembers = () => 
     new Promise((resolve, reject) => {

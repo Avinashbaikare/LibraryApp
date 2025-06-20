@@ -1,43 +1,45 @@
- exports.userdashboard = async (req, res) => {
-  try {
-    let userid = parseInt(req.query.id.trim());
+class RegServices {
+    acceptRegdata(name, email, password, phone, address, date) {
+        // Trim all values
+        name = name?.trim();
+        email = email?.trim();
+        password = password?.trim();
+        phone = phone?.trim();
+        address = address?.trim();
+        date = date?.trim();
 
-    const profile = await regmodels.showUserprofile(userid);
+        // Regular Expressions
+        const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+        const phoneRegex = /^[6-9]\d{9}$/; // Indian mobile format
+        const passwordRegex = /^(?=.*[A-Za-z])(?=.*\d)[A-Za-z\d@$!%*#?&]{6,}$/;
 
-    if (profile.length > 0) {
-      const requestcount = await regmodels.totalrequest();
-      const approvedcount= await regmodels.approvedrequest();
-      
-      res.render("userboard.ejs", { msg: profile[0],data: requestcount,});
-    } else {
-      res.render("userboard.ejs", { msg: "No user found.", data: null});
-    }
-  } catch (err) {
-    console.error("Error loading dashboard:", err);
-    res.status(500).send("Server error");
-  }
-};
-exports.validuser = (req, res) => {
-    let { username, password } = req.body;
-
-    regmodels.validateuserlogin(username, password).then(async (r) => {
-        if (r.length > 0) {
-            let id = r[0].id;
-            try {
-                
-                let data1 = await regmodels.totalrequest(id);
-                let data2=await regmodels.approvedrequest(id);
-                
-                res.render("userboard.ejs", { msg: r[0], data: data1 ,data1: data2 });
-            } catch (err) {
-                console.error("Error fetching book count:", err);
-                res.status(500).send("Error loading user dashboard");
-            }
-        } else {
-            res.render("loginuser.ejs", { msg: "User Not Valid...." });
+        // Basic field validations
+        if (!name || name.length < 3) {
+            return "Invalid name. Must be at least 3 characters.";
         }
-    }).catch((err) => {
-        console.error("Login validation error:", err);
-        res.status(500).send("Internal Server Error");
-    });
-};
+
+        if (!email || !emailRegex.test(email)) {
+            return "Invalid email format.";
+        }
+
+        if (!password || !passwordRegex.test(password)) {
+            return "Password must be at least 6 characters, include letters and numbers.";
+        }
+
+        if (!phone || !phoneRegex.test(phone)) {
+            return "Invalid phone number. Must be 10 digits starting with 6-9.";
+        }
+
+        if (!address || address.length < 5) {
+            return "Address must be at least 5 characters.";
+        }
+
+        if (!date || isNaN(new Date(date).getTime())) {
+            return "Invalid date format.";
+        }
+
+        // All validations passed
+        let result = regmodule.saveUser(name, email, password, phone, address, date);
+        return result ? "Registration Success" : "Registration Failed";
+    }
+}

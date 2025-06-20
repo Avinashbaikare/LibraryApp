@@ -12,13 +12,18 @@ exports.login=(req,res)=>{
 exports.signadmin=(req,res)=>{
     res.render("signupstd.ejs",{msg:""});
 }
-exports.saveuser=(req,res)=>{
-    let{name,email,password,phone,address}=req.body;
-    let date=new Date();
+exports.saveuser=async (req, res) => {
+    let { name, email, password, phone, address } = req.body;
+    let date = new Date();
 
-    let result=regservice.acceptRegdata(name,email,password,phone,address,date);
-    res.render("signupstd.ejs",{msg:result});
-}
+    try {
+        let result = await regservice.acceptRegdata(name, email, password, phone, address, date);
+        res.render("signupstd.ejs", { msg: result });
+    } catch (err) {
+        console.error("Error during registration:", err);
+        res.render("signupstd.ejs", { msg: "Registration failed due to server error." });
+    }
+};
 exports.validadmin = (req, res) => {
     let { username, password } = req.body;
 
@@ -156,15 +161,18 @@ exports.admindashboards = async (req, res) => {
 exports.Regmembers=(req,res)=>{
     res.render("memberReg.ejs",{msg:""});
 }
-exports.savemembers=(req,res)=>
-{
-     let{name,email,phone,address,gender,dob,collegename,password}=req.body;
-    let date=new Date();
-   
-    let result=regservice.acceptUserregdata(name,email,phone,address,gender,dob,collegename,password,date);
-    res.render("memberReg.ejs",{msg:result});
+exports.savemembers=async (req, res) => {
+    let { name, email, phone, address, gender, dob, collegename, password } = req.body;
+    let date = new Date();
 
-}
+    try {
+        let result = await regservice.acceptUserregdata(name, email, phone, address, gender, dob, collegename, password, date);
+        res.render("memberReg.ejs", { msg: result });
+    } catch (err) {
+        console.error("Error registering member:", err);
+        res.render("memberReg.ejs", { msg: "Registration failed due to server error." });
+    }
+};
 exports.viewmembers = async (req, res) => {
     let couid = parseInt(req.query.uid.trim());
     try {
