@@ -108,7 +108,7 @@
           </div>
           <div class="mb-3">
              
-            <img src="pay.png" style="width: 300px; height: 300px;margin-left: 100px;">
+            <img src="paycode.png" style="width: 300px; height: 300px;margin-left: 100px;">
           </div>
           
           <button type="button" class="btn btn-primary" id="confirmPayBtn">Pay Now</button>
@@ -161,7 +161,7 @@ function updateRemainingTimes() {
   spans.forEach(span => {
     const requestDate = parseInt(span.getAttribute('data-request-date'), 10);
     const submitDate = new Date(requestDate);
-    submitDate.setSeconds(submitDate.getSeconds() + 90000); // 7 days return date
+    submitDate.setSeconds(submitDate.getSeconds() + 9000); // 7 days return date
 
     const now = new Date();
     const diff = submitDate - now;
