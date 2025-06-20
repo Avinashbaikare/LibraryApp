@@ -35,8 +35,9 @@
         <div class="px-4 mt-5">
           <div class="d-flex justify-content-between align-items-center mb-3">
             <h5>Recents Circulations</h5>
-            <button class="btn btn-primary">+ Add Issue</button>
+            
           </div>
+          <div style="max-height: 500px; overflow: auto;">
           <table class="table">
     <thead>
         <tr>
@@ -51,7 +52,8 @@
     </thead>
     <tbody>
         <% if (data && data.length > 0) { %>
-            <% data.forEach(function(item) { %>
+           <% data.sort((a, b) => new Date(b.request_date) - new Date(a.request_date)).forEach(function(item) { %>
+
                 <tr>
                     <td><%= item.request_id %></td>
                     <td><%= item.name %></td>
@@ -84,7 +86,7 @@
         <% } %>
     </tbody>
 </table>
-
+    </div>
         </div>
       </div>
     </div>
