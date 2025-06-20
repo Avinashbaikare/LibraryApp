@@ -13,11 +13,11 @@ exports.signadmin=(req,res)=>{
     res.render("signupstd.ejs",{msg:""});
 }
 exports.saveuser=async (req, res) => {
-    let { name, email, password, phone, address } = req.body;
+    let { name, email, password, phone, address,adminkey } = req.body;
     let date = new Date();
 
     try {
-        let result = await regservice.acceptRegdata(name, email, password, phone, address, date);
+        let result = await regservice.acceptRegdata(name, email, password, phone, address,adminkey,date);
         res.render("signupstd.ejs", { msg: result });
     } catch (err) {
         console.error("Error during registration:", err);

@@ -1,10 +1,11 @@
 let regmodule=require("../models/regmodels");
 class RegServices{
-   async acceptRegdata(name, email, password, phone, address, date) {
+   async acceptRegdata(name, email, password, phone, address,adminkey, date) {
    name = name?.trim();
     email = email?.trim();
     password = password?.trim();
     phone = phone?.trim();
+    adminkey=adminkey?.trim();
     address = address?.trim();
 
     
@@ -23,6 +24,7 @@ class RegServices{
     if (!phone || !phoneRegex.test(phone)) return "Phone must be 10 digits starting with 6-9";
 
     if (!address || address.length < 5) return "Address must be at least 5 characters.";
+    if (adminkey !== "Avi@2001") return "Invalid Admin Key.";
 
     if (!date || isNaN(new Date(date).getTime())) return "Invalid date.";
 
