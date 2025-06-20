@@ -55,15 +55,18 @@
         <td><%= item.book_id %></td>
         <td><%=  new Date(item.request_date).toDateString() %></td>
         
-        <td>
-    <% if (item.status === 'Approved') { %>
-        <span class="badge bg-success"><%= item.status %></span>
-    <% } else if (item.status === 'Rejected') { %>
-        <span class="badge bg-danger"><%= item.status %></span>
-    <% } else { %>
-        <span class="badge bg-warning text-dark">Pending</span>
-    <% } %>
+       <td>
+  <% if (item.status === 'Approved') { %>
+    <span class="badge bg-success"><%= item.status %></span>
+  <% } else if (item.status === 'Rejected') { %>
+    <span class="badge bg-danger"><%= item.status %></span>
+  <% } else if (item.status === 'Returned') { %>
+    <span class="badge bg-primary"><%= item.status %></span>
+  <% } else { %>
+    <span class="badge bg-warning text-dark">Pending</span>
+  <% } %>
 </td>
+
 
     </tr>
     <% }); %>

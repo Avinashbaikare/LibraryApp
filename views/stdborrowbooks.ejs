@@ -6,90 +6,76 @@
   <title>Library Dashboard</title>
   <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-    <link rel="stylesheet" href="style.css">
+  <link rel="stylesheet" href="style.css">
 </head>
 <body>
-    
+
 <div class="container-fluid">
-    <div class="row">
-        <div class="col-md-2 sidebar">
-            <h3 class="text-center py-3"></h3>
-            <a href="/userdashboard?id=<%=data1.id%>" class="active"><i class="fas fa-tachometer-alt me-2"></i>Dashboard</a>
-            <a href="/userprofile?id=<%=data1.id%>"><i class="fas fa-user me-2"></i>Profile</a>
-            <a href="/studviewbook?id=<%=data1.id%>"><i class="fa-solid fa-book-open-reader"></i> View Books</a>
-            <a href="/issubook?id=<%=data1.id%>"><i class="fas fa-bell me-2"></i></i>Issue  Books</a>
-            <a href="/borrowbooks?id=<%=data1.id%>"><i class="fa-solid fa-book-open"></i> My Borrow Books</a>
-            <a href="/userLogin"><i class="fa-solid fa-right-from-bracket"></i> Logout</a>
-            
-        </div>  
-     <div class="col-md-10">
-        <div class="header d-flex justify-content-between align-items-center">
-            <h4>User Dashboard</h4>
-            <div>Hello,<%=data1.name%>  </div>
+  <div class="row">
+    <div class="col-md-2 sidebar">
+      <h3 class="text-center py-3"></h3>
+      <a href="/userdashboard?id=<%=data1.id%>" class="active"><i class="fas fa-tachometer-alt me-2"></i>Dashboard</a>
+      <a href="/userprofile?id=<%=data1.id%>"><i class="fas fa-user me-2"></i>Profile</a>
+      <a href="/studviewbook?id=<%=data1.id%>"><i class="fa-solid fa-book-open-reader"></i> View Books</a>
+      <a href="/issubook?id=<%=data1.id%>"><i class="fas fa-bell me-2"></i>Issue  Books</a>
+      <a href="/borrowbooks?id=<%=data1.id%>"><i class="fa-solid fa-book-open"></i> My Borrow Books</a>
+      <a href="/userLogin"><i class="fa-solid fa-right-from-bracket"></i> Logout</a>
+    </div>  
+    <div class="col-md-10">
+      <div class="header d-flex justify-content-between align-items-center">
+        <h4>User Dashboard</h4>
+        <div>Hello,<%=data1.name%></div>
+      </div>
+
+      <div class="px-4 mt-5">
+        <div class="d-flex justify-content-between align-items-center mb-3">
+          <h4>My Borrow Books</h4>
+          <div class="input-group" style="width: 50%; margin-left: 400px;">
+            <span class="input-group-text bg-white"><i class="fa-solid fa-magnifying-glass"></i></span>
+            <input type="text" class="form-control" id="search" placeholder="Search book...">
+          </div>
         </div>
-         <div class="px-4 mt-5">
-  <div class="d-flex justify-content-between align-items-center mb-3">
-    <h4>My Borrow Books</h4>
-    <div class="input-group" style="width: 50%; margin-left: 400px;">
-      <span class="input-group-text bg-white"><i class="fa-solid fa-magnifying-glass"></i></span>
-      <input type="text" class="form-control" id="search" placeholder="Search book...">
-    </div>
+      </div>
+
+      <div style="max-height: 500px; overflow: auto;">
+        <table class="table table-bordered">
+          <thead>
+            <tr>
+              <th>Book Id</th>
+              <th>Image</th>
+              <th>Title</th>
+              <th>Request Date</th>
+              <th>Last Date for Return</th>
+              <th>Action</th>
+            </tr>
+          </thead>
+          <tbody id="tBody">
+            <% if(data.length == 0){ %>
+              <tr><td colspan="6"><h1>There is no data present in database</h1></td></tr>
+            <% } else { data.forEach((item, index) => { %>  
+              <tr style="text-align: center; vertical-align: middle;" data-request-id="<%= item.request_id %>">
+                <td><%=(index+1)%></td>
+                <td><img src="<%=item.image%>" style="width: 100px; height: 150px;"></td>
+                <td><%=item.title%></td>
+                <td><%= new Date(item.request_date).toDateString() %></td>
+                <td>
+                  <span class="remaining-time" 
+                    data-request-date="<%= new Date(item.request_date).getTime() %>">
+                  </span>
+                </td>
+                <td>
+                  <a href="<%= item.link %>" target="_blank" class="btn btn-primary mb-2">Read Book</a>
+                </td>
+              </tr>
+            <% }); } %>
+          </tbody>
+        </table>
+      </div>
+    </div> 
   </div>
 </div>
-         <div style="max-height: 500px; overflow: auto;">
-          <table class="table table-bordered">
-            <thead>
-              <tr>
-                <th>Book Id</th>
-                <th>image</th>
-                <th>Title</th>
-                <th>request_date</th>
-                <th>last date for return</th>
-                <th>Action</th>
-                
-              </tr>
-            </thead>
-            <tbody id="tBody">
-            <%
-                if(data.length==0){
-            %>
-            <tr><td colspan="4"><h1>There is no data present in database </h1></td></tr>
-            <%
-                }
-                else{
-                data.forEach((item,index)=>{
-            %>  
-            <tr style="text-align: center; vertical-align: middle;">
-                <td ><%=(index+1)%></td>
-                <td><img src="<%=item.image%>" style="width: 100px; height: 150px;" ></td>
-                <td><%=item.title%></td>
-                <td><%=  new Date(item.request_date).toDateString() %></td>
-                <td>
-                <span class="remaining-time" 
-                 data-request-date="<%= new Date(item.request_date).getTime() %>"></span>
-                 
-                </td>
 
-                <td>
-                <a href="<%= item.link %>" target="_blank" class="btn btn-primary">Read Book</a>
-                
-                </td>
-
-            </tr>
-            
-            <%
-                });
-            }
-            %>
-            
-        </tbody>
-          </table>
-        </div>
-     </div> 
-    </div>
-    
-</div>
-<!-- Modal -->
+<!-- Pay Fees Modal -->
 <div class="modal fade" id="payFeesModal" tabindex="-1" aria-labelledby="payFeesModalLabel" aria-hidden="true">
   <div class="modal-dialog modal-dialog-centered modal-dialog-scrollable" style="max-width: 600px;">
     <div class="modal-content">
@@ -99,79 +85,81 @@
       </div>
       <div class="modal-body">
         <p>Your return date has expired. Please pay the late fees to continue.</p>
-        <form action="/payfees" method="POST">
-          <input type="hidden" name="student_id" value="<%= data1.id %>">
-          
+        <form action="/returnbook" method="POST">
+          <input type="hidden" name="request_id" id="modal_request_id">
+
           <div class="mb-3">
             <label for="amount" class="form-label">Amount (₹)</label>
             <input type="number" name="amount" id="amount" class="form-control" value="500" readonly>
           </div>
           <div class="mb-3">
-             
-            <img src="paycode.png" style="width: 300px; height: 300px;margin-left: 100px;">
+            <img src="paycode.png" style="width: 300px; height: 300px; margin-left: 100px;">
           </div>
-          
-          <button type="button" class="btn btn-primary" id="confirmPayBtn">Pay Now</button>
-
+          <button type="submit" class="btn btn-primary">Pay Now</button>
         </form>
       </div>
     </div>
   </div>
 </div>
 
+<!-- Return Book Modal -->
+<div class="modal fade" id="returnBookModal" tabindex="-1" aria-labelledby="returnBookModalLabel" aria-hidden="true">
+  <div class="modal-dialog modal-dialog-centered modal-dialog-scrollable" style="max-width: 600px;">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="returnBookModalLabel">Return Book</h5>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>
+      <div class="modal-body">
+        <p>Are you sure you want to return this book?</p>
+        <form action="/returnbook" method="POST">
+          <input type="hidden" name="request_id" id="return_modal_request_id">
+          <button type="submit" class="btn btn-success">Confirm Return</button>
+        </form>
+      </div>
+    </div>
+  </div>
+</div>
 
-
+<!-- Scripts -->
 <script>
-  document.getElementById('search').addEventListener('input', function() {
-    const filter = this.value.toLowerCase();
-    let visibleCount = 0;
+document.getElementById('search').addEventListener('input', function() {
+  const filter = this.value.toLowerCase();
+  let visibleCount = 0;
 
-    document.querySelectorAll('#tBody tr').forEach(row => {
-      const rowText = Array.from(row.cells)
-        .map(cell => cell.textContent.toLowerCase())
-        .join(' ');
-
-      const isVisible = rowText.includes(filter);
-      row.style.display = isVisible ? '' : 'none';
-
-      if (isVisible) visibleCount++;
-    });
-
-    // If no visible rows, show message row
-    let messageRow = document.getElementById('noDataRow');
-    if (visibleCount === 0) {
-      if (!messageRow) {
-        messageRow = document.createElement('tr');
-        messageRow.id = 'noDataRow';
-        messageRow.innerHTML = `<td colspan="7" class="text-center text-danger"><h5>No books found</h5></td>`;
-        document.getElementById('tBody').appendChild(messageRow);
-      }
-    } else {
-      if (messageRow) {
-        messageRow.remove();
-      }
-    }
+  document.querySelectorAll('#tBody tr').forEach(row => {
+    const rowText = Array.from(row.cells).map(cell => cell.textContent.toLowerCase()).join(' ');
+    const isVisible = rowText.includes(filter);
+    row.style.display = isVisible ? '' : 'none';
+    if (isVisible) visibleCount++;
   });
 
-
+  let messageRow = document.getElementById('noDataRow');
+  if (visibleCount === 0) {
+    if (!messageRow) {
+      messageRow = document.createElement('tr');
+      messageRow.id = 'noDataRow';
+      messageRow.innerHTML = `<td colspan="7" class="text-center text-danger"><h5>No books found</h5></td>`;
+      document.getElementById('tBody').appendChild(messageRow);
+    }
+  } else {
+    if (messageRow) messageRow.remove();
+  }
+});
 
 function updateRemainingTimes() {
   const spans = document.querySelectorAll('.remaining-time');
-
   spans.forEach(span => {
     const requestDate = parseInt(span.getAttribute('data-request-date'), 10);
     const submitDate = new Date(requestDate);
-    submitDate.setSeconds(submitDate.getSeconds() + 9000); // 7 days return date
+    submitDate.setSeconds(submitDate.getSeconds() + 900); // 7 days
 
     const now = new Date();
     const diff = submitDate - now;
+    const row = span.closest('tr');
+    const requestId = row.getAttribute('data-request-id');
 
-    // check if button is already paid (Return Book shown)
-    const alreadyPaid = span.classList.contains('paid'); 
-
-
-    if (diff > 0 || alreadyPaid) {
-      // If not expired — show countdown + Return button OR already paid
+    if (diff > 0) {
       const days = Math.floor(diff / (1000 * 60 * 60 * 24));
       const hours = Math.floor((diff % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
       const minutes = Math.floor((diff % (1000 * 60 * 60)) / (1000 * 60));
@@ -179,12 +167,21 @@ function updateRemainingTimes() {
 
       span.innerHTML = `
         <div>${days}d ${hours}h ${minutes}m ${seconds}s</div>
-        <button class="btn btn-success btn-sm mt-2 return-book-btn">Return Book</button>
+        <button 
+          class="btn btn-success btn-sm mt-2 return-book-btn"
+          data-request-id="${requestId}"
+        >
+          Return Book
+        </button>
       `;
     } else {
-      
       span.innerHTML = `
-        <button class="btn btn-warning btn-sm pay-fees-btn">Pay Fees</button>
+        <button 
+          class="btn btn-warning btn-sm pay-fees-btn"
+          data-request-id="${requestId}"
+        >
+          Pay Fees
+        </button>
       `;
     }
   });
@@ -192,22 +189,27 @@ function updateRemainingTimes() {
 setInterval(updateRemainingTimes, 1000);
 updateRemainingTimes();
 
-
-
-let currentPayButton = null; // store clicked button
-
 document.addEventListener('click', function(e) {
   if (e.target && e.target.classList.contains('pay-fees-btn')) {
-    // open modal
+    const requestId = e.target.getAttribute('data-request-id');
+    console.log("Clicked Pay Fees request_id:", requestId);
+    document.getElementById('modal_request_id').value = requestId;
+
     const modal = new bootstrap.Modal(document.getElementById('payFeesModal'));
     modal.show();
+  }
 
-    // remember which Pay Fees button was clicked
-    currentPayButton = e.target;
+  if (e.target && e.target.classList.contains('return-book-btn')) {
+    const requestId = e.target.getAttribute('data-request-id');
+    console.log("Clicked Return Book request_id:", requestId);
+    document.getElementById('return_modal_request_id').value = requestId;
+
+    const modal = new bootstrap.Modal(document.getElementById('returnBookModal'));
+    modal.show();
   }
 });
-
 </script>
+
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
 
 </body>

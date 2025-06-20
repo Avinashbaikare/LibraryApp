@@ -307,7 +307,7 @@ exports.issueboard = async (req, res) => {
     
     try {
         let result1 = await regmodels.showprofile(adminid);
-        let issueRequests = await regmodels.showissuerequestadmin();  // call your function
+        let issueRequests = await regmodels.showissuerequestadmin();  
 
         if (result1.length > 0) {
             res.render("issueboardadmin.ejs", {
@@ -331,7 +331,7 @@ exports.issueboard = async (req, res) => {
 exports.approveRequest = async (req, res) => {
    let{request_id}=req.body; 
    let data1_uid = parseInt(req.query.uid.trim());  
-    console.log(data1_uid);
+    
     try {
         await regmodels.acceptrequest(request_id);
         let profileResult = await regmodels.showprofile(data1_uid);
@@ -434,7 +434,7 @@ exports.borrowbooks= async (req, res) => {
         regmodels.showUserprofile(userid).then((result1) => {
     if (result1.length > 0) {
       res.render("stdborrowbooks.ejs", { msg:"",data: result,data1: result1[0] });
-     
+        
       
     } else {
       res.render("stdborrowbooks.ejs", { data: null,data1:null, msg: "No user found." });
@@ -471,4 +471,13 @@ exports.removemember=async (req,res)=>{
    console.error("Error deleting book:", err);
    res.status(500).send("Failed to remove member");
  }
+};
+exports.returnbook=async (req, res) => {
+         let {request_id}=req.body;
+          try {
+        await regmodels.returnbookrequest(request_id);
+          }catch (err) {
+        console.error("Error approving request:", err);
+        res.status(500).send("Server error");
+    }
 };

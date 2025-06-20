@@ -261,3 +261,29 @@ exports.deleteissudata = (bid) => {
     });
   });
 };
+
+ exports.returnbook = (student_id, book_id) =>
+    new Promise((resolve, reject) => {
+        const sql = `
+            INSERT INTO book_requests (student_id, book_id, request_date, status)
+            VALUES (?, ?, NOW(), 'Returned')
+        `;
+
+        conn.query(sql, [student_id, book_id], (err, result) => {
+            if (err) {
+                console.error("Error inserting book request:", err);
+                reject(err);
+            } else {
+                resolve(result);
+            }
+        });
+    });
+
+    exports.returnbookrequest = (couid) => 
+    new Promise((resolve, reject) => {
+        conn.query("UPDATE book_requests SET status = 'Returned' WHERE request_id = ?;",[couid], (err, result) => {
+            if (err) reject(err);
+            else resolve(result);
+        
+        });
+    });
