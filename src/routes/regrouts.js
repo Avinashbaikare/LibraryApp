@@ -30,6 +30,7 @@ router.get("/updatebook",regCtrl.updatebooks);
 router.post("/saveupdatebook",regCtrl.saveupdatebook);
 router.get("/borrowbooks",regCtrl.borrowbooks);
 router.get("/deletebook",regCtrl.deletebook);
+router.get("/removemember",regCtrl.removemember);
 
 
 module.exports=router;

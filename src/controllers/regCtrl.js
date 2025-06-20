@@ -251,7 +251,7 @@ exports.studviewbook = async (req, res) => {
 exports.issubooks = (req, res) => {
     let userid = parseInt(req.query.id.trim());
 
-    // Fetch user profile AND all requests at the same time
+    
     Promise.all([
         regmodels.showUserprofile(userid),
         regmodels.showrequests(userid)
@@ -260,14 +260,14 @@ exports.issubooks = (req, res) => {
         if (userResult.length > 0) {
             res.render("issuebooks.ejs", {
                 msg: "",
-                data: userResult[0],      // profile
-                requests: allRequests     // all book requests
+                data: userResult[0],      
+                requests: allRequests     
             });
         } else {
             res.render("issuebooks.ejs", {
                 msg: "No user found.",
                 data: null,
-                requests: allRequests     // still show requests
+                requests: allRequests     
             });
         }
     })
@@ -329,7 +329,7 @@ exports.issueboard = async (req, res) => {
 
 // Approve request
 exports.approveRequest = async (req, res) => {
-   let{request_id}=req.body;  // You need admin_id in form also!
+   let{request_id}=req.body; 
    let data1_uid = parseInt(req.query.uid.trim());  
     console.log(data1_uid);
     try {
@@ -459,4 +459,15 @@ exports.deletebook = async (req, res) => {
     console.error("Error deleting book:", err);
     res.status(500).send("Failed to delete book.");
   }
+};
+exports.removemember=async (req,res)=>{
+ let uid=parseInt(req.query.uid.trim());
+ try{
+  await regmodels.removemember(uid);
+  res.redirect("/viewmembers?uid="+uid);
+ 
+ }catch(err){
+   console.error("Error deleting book:", err);
+   res.status(500).send("Failed to remove member");
+ }
 };

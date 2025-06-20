@@ -245,3 +245,11 @@ exports.deletebook = (bid) => {
     });
   });
 };
+exports.removemember=(uid)=>{
+  return new Promise((resolve,reject)=>{
+    conn.query("delete from members where id=?",[uid],(err,result)=>{
+     if (err) reject(err);
+      else resolve(result);
+    });
+  });
+};
